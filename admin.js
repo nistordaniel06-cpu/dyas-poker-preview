@@ -32,7 +32,7 @@ export async function renderAdmin() {
   const v = D.view;
   const tab = TABS.some(([k]) => k === v.tab) ? v.tab : "overview";
   D.app.innerHTML = `<div class="screen admin">
-    <div class="topbar"><a class="back" href="#/" aria-label="Înapoi">←</a><h1 style="margin:0">🛡️ Admin</h1></div>
+    <div class="topbar"><a class="back" href="#/" aria-label="Înapoi">←</a><h1 style="margin:0">Administrare</h1></div>
     <div class="tabs scroll">${TABS.map(([k, n]) => `<button data-at="${k}" class="${k === tab ? "on" : ""}">${n}<span class="dot" data-dot="${k}" hidden></span></button>`).join("")}</div>
     <div id="adm"><div class="empty">Se încarcă…</div></div></div>`;
   $$("[data-at]").forEach((b) => (b.onclick = () => go(`#/admin/${b.dataset.at}`)));
@@ -57,7 +57,9 @@ async function overview(refresh) {
     ["🔴", o.playing, o.playing === 1 ? "masă în joc" : "mese în joc", plural(o.seated, "jucător așezat", "jucători așezați")], ["🃏", o.hands_today, o.hands_today === 1 ? "mână azi" : "mâini azi", ""],
     ["💶", fmt(o.in_balances), "jetoane în solduri", ""], ["♠", fmt(o.on_tables), "jetoane pe mese", ""], ["🎁", fmt(o.granted), "jetoane date de tine", "în total"], ["🎰", fmt(o.jackpots), "în jackpoturile cluburilor", "partea lor din comision"], ["🏛️", fmt(o.house), "în casa aplicației", `+${fmt(o.rake_today)} comision azi`],
     ["🏦", fmt(o.bank), "rămase în casele cluburilor", "de dinainte de jackpot"]];
-  const kpis = `<div class="kpis" data-testid="admin-kpis">${tiles.map(([i, v, l, x]) => `<div class="kpi"><span>${i}</span><b>${v}</b><small>${l}</small>${x ? `<em>${x}</em>` : ""}</div>`).join("")}</div>`;
+  const group = (title, entries) => '<section class="metric-group"><h2>' + title + '</h2><div class="metric-grid">' +
+    entries.map(([, value, label, detail]) => '<div class="kpi"><small>' + label + '</small><b>' + value + '</b>' + (detail ? '<em>' + detail + '</em>' : '') + '</div>').join('') + '</div></section>';
+  const kpis = '<div class="kpis" data-testid="admin-kpis">' + group('Activitate la mese', tiles.slice(0,4)) + group('Distribuția jetoanelor', tiles.slice(4)) + '</div>';
   if (refresh && adm().querySelector(".kpis")) { adm().querySelector(".kpis").outerHTML = kpis; return; }
   adm().innerHTML = `${kpis}
     <div class="actions" style="margin-top:14px">

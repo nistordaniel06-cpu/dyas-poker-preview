@@ -323,9 +323,26 @@ async function renderAllTables() {
   if (!H || view.name !== "tables") return;
   $app.innerHTML = `<div class="screen">
     <div class="topbar"><h1 style="margin:0">♠️ Mese</h1></div>
-    <p class="sub">Toate mesele din cluburile tale. Atinge una ca să te așezi.</p>
+    <p class="sub">Mesele din cluburile tale</p>
+    ${H.tables.length ? '<div class="lobby-filter" aria-label="Filtrează mesele"><button type="button" data-filter="all" aria-pressed="true">Toate</button><button type="button" data-filter="available" aria-pressed="false">Cu locuri libere</button><button type="button" data-filter="playing" aria-pressed="false">În joc</button></div><p class="lobby-count" role="status"></p>' : ''}
     ${H.tables.length ? H.tables.map(tableCard).join("") : `<div class="empty"><b>♠</b>Nicio masă încă.<br>Proprietarul clubului poate crea mese din pagina clubului.</div>`}
   </div>`;
+  const buttons = [...$app.querySelectorAll('[data-filter]')];
+  const cards = [...$app.querySelectorAll('.tcard')];
+  const count = $app.querySelector('.lobby-count');
+  function filterTables(filter) {
+    let visible = 0;
+    cards.forEach((card, i) => {
+      const table = H.tables[i];
+      const show = filter === 'all' || (filter === 'playing' ? table.playing : table.players.length < table.capacity);
+      card.hidden = !show;
+      if (show) visible++;
+    });
+    buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.filter === filter)));
+    if (count) count.textContent = visible ? (visible === 1 ? '1 masă' : visible + ' mese') : 'Nicio masă pentru acest filtru.';
+  }
+  buttons.forEach(button => button.addEventListener('click', () => filterTables(button.dataset.filter)));
+  filterTables('all');
 }
 
 // ---------- activitate: mâinile mele din toate cluburile și realizările ----------
