@@ -160,3 +160,14 @@ html body :is(.cm .av,.seat .sav),#app .avatar {background-color:#292832}
 .cx .cx-bal,.cx .cx-hero em,#app .kpi em,#app .friend .fav .on {color:#efcc9b}
 #app .table-screen {background:radial-gradient(ellipse at center,#282329,#101115 75%)}
 html body .tb-btn .unread {background:#bf203d;color:white}
+
+/* Each rail is part of its photograph. Keep the live board and seats on their own layers. */
+#app [data-theme="green"] {--table-art:url("./table-emerald.webp")}
+#app [data-theme="blue"] {--table-art:url("./table-sapphire.webp")}
+#app [data-theme="red"] {--table-art:url("./table-burgundy.webp")}
+#app :is(.table-screen,.tmini)[data-theme] .felt {
+  background:var(--table-art) center / 100% 100% no-repeat;
+  border:0;border-radius:50% / 26%;box-shadow:0 6px 18px #0006;
+  pointer-events:none;
+}
+#app :is(.table-screen,.tmini)[data-theme] .felt > i {display:none}
