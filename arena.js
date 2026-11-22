@@ -7,7 +7,7 @@ function faceNumber(value) {
   if (extra.has(value)) return extra.get(value);
   return [...value].reduce((n,c) => (n*31+c.codePointAt(0)) >>> 0, 7) % 16;
 }
-const selectors = '.av,.avatar,.sav,.avatars button[data-av],#tabbar a[href="#/profile"] .ni';
+const selectors = '.av,.avatar,.sav,.avatars button[data-av]';
 function dress(node) {
   if (node.querySelector('.arena-face')) return;
   const value = node.dataset.av || node.textContent.trim() || '♠';
