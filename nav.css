@@ -1,0 +1,256 @@
+/* DYAS Poker — bara de meniu de jos și meniul contului */
+#tabbar { position: fixed; left: 50%; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); z-index: 50; transform: translateX(-50%);
+  width: min(calc(100% - 20px), 400px); display: flex; justify-content: space-between; gap: 2px; padding: 4px;
+  background: rgba(8, 18, 13, .86); -webkit-backdrop-filter: blur(14px) saturate(1.3); backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid rgba(242, 205, 107, .14); border-radius: 18px; box-shadow: 0 10px 28px rgba(0, 0, 0, .45);
+  transition: transform .22s cubic-bezier(.2, .8, .2, 1), opacity .22s; }
+#tabbar.tuck { transform: translate(-50%, calc(100% + 16px)); opacity: 0; pointer-events: none; }
+#tabbar a { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 5px 2px 4px; border-radius: 14px;
+  color: var(--muted); text-decoration: none; font-size: 10px; font-weight: 800; letter-spacing: .01em; line-height: 1.15;
+  transition: background .18s, color .18s, transform .12s; }
+#tabbar .ni { font-size: 17px; line-height: 20px; height: 20px; filter: grayscale(.7); opacity: .7; transition: filter .18s, opacity .18s; }
+#tabbar .ni .ini { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--goldg); color: #231904; font: 800 10.5px/1 var(--sans); font-style: normal; }
+#tabbar a.on { color: var(--gold); background: rgba(242, 205, 107, .12); }
+#tabbar a.on .ni { filter: none; opacity: 1; }
+#tabbar a:active { transform: scale(.92); }
+#tabbar a:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+body.has-tabbar .screen { padding-bottom: calc(78px + env(safe-area-inset-bottom, 0px)); }
+@media (prefers-reduced-motion: reduce) { #tabbar { transition: none; } }
+
+.menu { padding: 4px 14px; }
+.menu-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 15px 0; background: none; border: 0; border-bottom: 1px solid var(--line2);
+  color: var(--text); font: inherit; font-weight: 700; text-align: left; cursor: pointer; }
+.menu-row:last-child { border-bottom: 0; }
+.menu-row:active { opacity: .7; }
+.menu-row .mi { font-size: 19px; width: 26px; text-align: center; }
+.menu-row .grow { flex: 1; }
+.menu-row small { display: block; color: var(--muted); font-weight: 600; font-size: 12.5px; margin-top: 2px; }
+.menu-row .chev { color: var(--muted); font-size: 22px; line-height: 1; transition: transform .18s; }
+.menu-row[aria-expanded="true"] .chev { transform: rotate(90deg); }
+.menu-row.danger { color: #ff8a8f; }
+.pwform { padding: 4px 0 14px; border-bottom: 1px solid var(--line2); }
+.pwform label:first-of-type { margin-top: 0; }
+.showpw { display: flex; align-items: center; gap: 8px; margin: 10px 0 4px; color: var(--muted); font-size: 13px; font-weight: 700; }
+.showpw input { width: auto; margin: 0; }
+
+/* masă: completare jetoane, pauză */
+.addchips{margin-left:6px;width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#ffd77a;font-size:14px;line-height:20px;padding:0;vertical-align:middle;cursor:pointer}
+.addchips:active{transform:scale(.92)}
+.who .st .tp{color:#7ee2a0;font-weight:600}
+.linkbtn{display:block;margin:6px auto 0;background:none;border:0;color:var(--muted,#9aa3b2);font-size:13px;text-decoration:underline;cursor:pointer;padding:4px}
+.note .linkbtn{display:inline;margin:0 0 0 4px;color:#ffd77a}
+.seat .tag.pauză{background:#5a4a2a;color:#ffd77a}
+.tsheet{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center}
+.tsheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.tsheet-box{position:relative;width:100%;max-width:480px;background:var(--card,#151a24);border-radius:18px 18px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px;animation:tsUp .2s ease-out}
+.tsheet-box h3{margin:0}
+.tsheet-box .row{display:flex;gap:8px}
+.tsheet-box input{flex:1;min-width:0}
+@keyframes tsUp{from{transform:translateY(30px);opacity:0}}
+
+/* butonul din mijloc: „Joacă” */
+#tabbar a.play { flex: 1.15; color: var(--gold); }
+#tabbar a.play .ni { width: 50px; height: 50px; line-height: 50px; margin-top: -24px; margin-bottom: 1px; border-radius: 50%; filter: none; opacity: 1; font-size: 24px;
+  display: grid; place-items: center; background: var(--goldg); border: 3px solid #08120d; box-shadow: 0 6px 16px rgba(242,205,107,.35), 0 2px 6px rgba(0,0,0,.5); }
+#tabbar a.play.on { background: none; }
+#tabbar { overflow: visible; }
+
+/* iPhone: conținutul nu mai intră sub ceas și baterie */
+.screen { padding-top: calc(14px + env(safe-area-inset-top, 0px)); }
+.landing { padding-top: calc(22px + env(safe-area-inset-top, 0px)); }
+.table-screen { padding-top: env(safe-area-inset-top, 0px); }
+/* masa: locurile libere */
+.seat.free { width: 46px !important; }
+.table-screen .seat.free .box { width: 46px; height: 46px; border-radius: 50% !important; padding: 0 !important; display: grid; place-items: center; background: rgba(0,0,0,.28);
+  border: 1.5px dashed rgba(242,205,107,.28); color: rgba(242,205,107,.6); font-size: 0; box-shadow: none; cursor: default; }
+.seat.free .box::before { content: "·"; font-size: 22px; line-height: 1; }
+.table-screen .seat.free[data-sit] .box { cursor: pointer; border-style: solid; background: rgba(242,205,107,.08); }
+.seat.free[data-sit] .box::before { content: "+"; font-size: 24px; font-weight: 400; }
+/* masa: tu ești la masă (jos, în centru) */
+.seat.mine .box { border-color: rgba(242,205,107,.55); background: linear-gradient(180deg, rgba(48,40,14,.96), rgba(14,16,8,.96)); }
+.seat.mine { width: calc(var(--sw) * 1.25); }
+/* chatul mesei: buton mare, jos în stânga, ușor de apăsat cu degetul mare */
+.fab-chat { position: absolute; left: 10px; bottom: 10px; z-index: 6; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(242,205,107,.35);
+  background: rgba(8,20,14,.92); box-shadow: 0 6px 18px rgba(0,0,0,.5); font-size: 19px; padding: 0; cursor: pointer; }
+.fab-chat:active { transform: scale(.92); }
+.fab-chat .unread { position: absolute; top: -3px; right: -3px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 10px; background: #ef4d55; color: #fff;
+  font: 900 11px/19px var(--sans); }
+/* masa: reacții și sunet, jos în dreapta */
+.fab-r { position: absolute; right: 10px; bottom: 10px; z-index: 6; display: flex; gap: 6px; }
+.fab-r .fab { position: relative; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(242,205,107,.35); background: rgba(8,20,14,.92);
+  box-shadow: 0 6px 18px rgba(0,0,0,.5); font-size: 19px; padding: 0; cursor: pointer; }
+.fab-r .fab.on { border-color: var(--gold); background: rgba(242,205,107,.18); }
+.fab-r .fab:active { transform: scale(.92); }
+.felt-wrap .tray { top: auto; bottom: 60px; right: 10px; }
+.rx.self { font-size: 22px; opacity: .9; }
+
+/* JACKPOT: ca la Las Vegas */
+.jackpot { position: relative; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 16px; overflow: hidden;
+  background: radial-gradient(120% 140% at 50% 0%, #6b0f1d, #2a0710 60%, #14040a); border: 2px solid #d39d38;
+  box-shadow: 0 0 0 2px #3a1206, 0 0 22px rgba(242,205,107,.35), inset 0 0 24px rgba(0,0,0,.6); }
+.jackpot .bulbs { position: absolute; inset: 3px; border-radius: 13px; pointer-events: none;
+  background:
+    radial-gradient(circle, #fff6c8 0 2px, rgba(255,214,102,.55) 3px, transparent 4.5px) 0 0 / 14px 14px repeat-x,
+    radial-gradient(circle, #fff6c8 0 2px, rgba(255,214,102,.55) 3px, transparent 4.5px) 0 100% / 14px 14px repeat-x;
+  animation: bulbs 1.1s steps(2) infinite; }
+@keyframes bulbs { 50% { background-position: 7px 0, 7px 100%; } }
+.jackpot .jp-logo { width: 72px; height: 30px; flex: none; filter: drop-shadow(0 2px 6px rgba(0,0,0,.6)); position: relative; }
+.jackpot .jp-txt { display: flex; flex-direction: column; line-height: 1.05; position: relative; min-width: 0; }
+.jackpot .jp-t { font-family: var(--serif); font-weight: 800; letter-spacing: .18em; font-size: 13px; color: #ffe9a8;
+  text-shadow: 0 0 6px rgba(255,200,80,.9), 0 0 14px rgba(255,120,40,.6); }
+.jackpot .jp-n { font-family: var(--serif); font-weight: 800; font-size: 26px; letter-spacing: .02em; background: var(--goldg); -webkit-background-clip: text; background-clip: text;
+  color: transparent; filter: drop-shadow(0 0 6px rgba(242,205,107,.55)); white-space: nowrap; }
+.jackpot.big { margin: 0 0 14px; justify-content: center; padding: 16px 14px; }
+.jackpot.big .jp-logo { width: 96px; height: 40px; }
+.jackpot.big .jp-t { font-size: 15px; }
+.jackpot.big .jp-n { font-size: 34px; }
+.jackpot.mini { padding: 4px 10px 4px 6px; gap: 6px; border-radius: 12px; border-width: 1.5px; }
+.jackpot.mini .bulbs { display: none; }
+.jackpot.mini { animation: jpglow 1.6s ease-in-out infinite alternate; }
+@keyframes jpglow { to { box-shadow: 0 0 0 2px #3a1206, 0 0 16px rgba(255,200,80,.75), inset 0 0 18px rgba(0,0,0,.6); } }
+.jackpot.mini .jp-logo { width: 40px; height: 17px; }
+.jackpot.mini .jp-t { font-size: 8.5px; letter-spacing: .14em; }
+.jackpot.mini .jp-n { font-size: 14px; }
+@media (prefers-reduced-motion: reduce) { .jackpot .bulbs, .jackpot.mini { animation: none; } }
+/* reacția stă deasupra numelui, fără să urce peste vecini */
+.felt-wrap .rx { font-size: 30px; animation-name: rx2; }
+.felt-wrap .rx.self { font-size: 22px; }
+@keyframes rx2 { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.4); } 12% { opacity: 1; transform: translate(-50%, -60%) scale(1.2); }
+  25% { transform: translate(-50%, -55%) scale(1); } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -75%) scale(1); } }
+/* punctul verde de la „Online acum”: rotund, nu turtit */
+.online-h .dot { flex: none; width: 10px; height: 10px; min-width: 0; padding: 0; margin: 0 2px 0 3px; border-radius: 50%; }
+/* ---------- acasă ---------- */
+.hs-empty { color: var(--muted); font-size: 14px; }
+.hs-empty a { color: var(--gold); font-weight: 800; }
+.tcard .t { font-size: 15px; }
+.jp-link { display: block; position: relative; margin: 16px 0 4px; text-decoration: none; color: inherit; }
+.jackpot.strip { justify-content: center; padding: 12px 14px; }
+.jackpot.strip .jp-n { font-size: 28px; }
+.jp-link .jp-club { display: block; margin-top: 6px; text-align: center; font-size: 12px; font-weight: 800; color: var(--muted); letter-spacing: .02em; }
+.friends { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 8px; scrollbar-width: none; }
+.friends::-webkit-scrollbar { display: none; }
+.friend { flex: none; width: 76px; display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: 0; color: var(--text); padding: 0; cursor: pointer; font: inherit; }
+.friend .fav { position: relative; }
+.friend .fav .av { width: 50px; height: 50px; font-size: 22px; }
+.friend .fav .on { position: absolute; right: 1px; bottom: 1px; width: 13px; height: 13px; border-radius: 50%; background: #46c878; border: 2px solid #08120d; }
+.friend b { font-size: 12px; max-width: 76px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.friend small { font-size: 10.5px; color: var(--gold); font-weight: 700; }
+.hs-actions { gap: 8px; margin-top: 14px; }
+.hs-actions .btn { font-size: 13.5px; padding: 0 8px; min-height: 44px; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+
+/* ---------- masa: acțiuni alese dinainte ---------- */
+.me .pre { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 9px; }
+.me .pre button { min-height: 40px; border-radius: 12px; border: 1px solid var(--line2); background: rgba(255,255,255,.05); color: var(--text); font: 800 13px/1.1 var(--sans); cursor: pointer; padding: 0 4px; }
+.me .pre button.on { border-color: var(--gold); background: rgba(242,205,107,.18); color: var(--gold); }
+
+/* ---------- teme de masă ---------- */
+.table-screen[data-theme="blue"] { --felt-hi: #2268a0; --felt-lo: #0b2a4a; }
+.table-screen[data-theme="red"] { --felt-hi: #8e2337; --felt-lo: #3a0a16; }
+.themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.themes button { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 4px; border-radius: 14px; border: 1px solid var(--line2); background: rgba(255,255,255,.04); color: var(--text); font: 800 12.5px var(--sans); cursor: pointer; }
+.themes button i { width: 46px; height: 30px; border-radius: 50% / 60%; border: 3px solid #3d2814; }
+.themes .th-green i { background: radial-gradient(ellipse, #1f7a50, #0a3a25); }
+.themes .th-blue i { background: radial-gradient(ellipse, #2268a0, #0b2a4a); }
+.themes .th-red i { background: radial-gradient(ellipse, #8e2337, #3a0a16); }
+.themes button.on { border-color: var(--gold); background: rgba(242,205,107,.12); color: var(--gold); }
+
+/* ---------- rame de avatar ---------- */
+.frames { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.frame { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 6px; border-radius: 14px; border: 1px solid var(--line2); background: rgba(255,255,255,.04); color: var(--text); font: inherit; cursor: pointer; text-align: center; }
+.frame .av { width: 46px; height: 46px; font-size: 21px; margin-bottom: 4px; }
+.frame b { font-size: 13px; }
+.frame small { font-size: 11px; color: var(--muted); line-height: 1.25; }
+.frame.on { border-color: var(--gold); background: rgba(242,205,107,.12); }
+.frame[disabled] { opacity: .55; cursor: default; }
+.av.fr-gold { box-shadow: 0 0 0 3px #f2cd6b, 0 0 12px rgba(242,205,107,.6); }
+.av.fr-fire { box-shadow: 0 0 0 3px #ff7a2f, 0 0 14px rgba(255,90,30,.8); }
+.av.fr-crown { box-shadow: 0 0 0 3px #f2cd6b, 0 0 12px rgba(242,205,107,.6); position: relative; overflow: visible; }
+.av.fr-crown::after { content: "👑"; position: absolute; top: -14px; left: 50%; transform: translateX(-50%) rotate(-8deg); font-size: 16px; }
+.seat.fr-gold:not(.turn):not(.win) .box { border: 2px solid #f2cd6b; box-shadow: 0 0 0 1px rgba(242,205,107,.4), 0 0 14px rgba(242,205,107,.45); }
+.seat.fr-fire:not(.turn):not(.win) .box { border: 2px solid #ff7a2f; box-shadow: 0 0 10px rgba(255,90,30,.7), 0 0 20px rgba(255,160,40,.3); animation: fireglow 1.4s ease-in-out infinite alternate; }
+@keyframes fireglow { to { box-shadow: 0 0 16px rgba(255,90,30,.9), 0 0 28px rgba(255,160,40,.45); } }
+.seat.fr-crown:not(.turn):not(.win) .box { border: 2px solid #f2cd6b; }
+.seat.fr-crown .box::after { content: "👑"; position: absolute; top: -15px; right: -6px; font-size: 16px; transform: rotate(14deg); }
+@media (prefers-reduced-motion: reduce) { .seat.fr-fire .box { animation: none; } }
+/* chat: punctul roșu de la înregistrarea vocală, rotund (nu turtit de regula generală .dot) */
+.chat-rec .dot { flex: none; width: 12px; height: 12px; min-width: 0; padding: 0; margin: 0 2px; border-radius: 50%; }
+
+/* ================= finisaj general: aliniere, fluiditate, fără suprapuneri ================= */
+* { -webkit-tap-highlight-color: transparent; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+h1, h2, .tile b, .card b { text-wrap: balance; }
+p, .small, small { text-wrap: pretty; }
+.screen { animation: scrIn .22s ease-out; }
+.screen.tlobby, body.admin-mode .screen { animation: none; }
+@keyframes scrIn { from { opacity: 0; transform: translateY(6px); } }
+.btn, .list-item, .tile, .tabs button, .friend, .frame, .themes button, .tcard2 { transition: transform .12s ease, background-color .18s, border-color .18s, box-shadow .18s, color .18s; }
+.btn:active:not([disabled]), .tile:active, .friend:active, .frame:active:not([disabled]), .themes button:active { transform: scale(.97); }
+.list-item:active, .tcard2:active { transform: scale(.99); }
+.btn { line-height: 1.15; }
+.btn.sm { white-space: nowrap; }
+.list-item .grow { min-width: 0; }
+.list-item .small { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+.list-item .small .badge { margin: 0; }
+@media (prefers-reduced-motion: reduce) { .screen { animation: none; } }
+
+/* tabul clubului: o singură linie, pe orice telefon */
+.screen > .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 2px; }
+.screen > .tabs::-webkit-scrollbar { display: none; }
+.screen > .tabs button { flex: 1 1 auto; white-space: nowrap; padding: 0 7px; font-size: 13px; letter-spacing: -.01em; }
+.screen > .tabs button[data-tab="tourneys"] { font-size: 0; }
+.screen > .tabs button[data-tab="tourneys"]::after { content: "Turnee"; font-size: 13px; }
+@media (max-width: 370px) {
+  .screen > .tabs button, .screen > .tabs button[data-tab="tourneys"]::after { font-size: 12.5px; }
+  .screen > .tabs button { padding: 0 5px; }
+  .screen > .tabs button[data-tab="tourneys"] { font-size: 0; }
+}
+
+/* acasă fără club: butonul „Intră într-un club” pe mijloc */
+.actions > .tile:only-child { grid-column: 1 / -1; justify-self: center; width: 100%; max-width: 330px; min-height: 150px; align-items: center; text-align: center; margin: 8px auto 4px; }
+.actions > .tile:only-child .ic { margin: 0 auto; }
+.actions > .tile:only-child + * , .actions:has(> .tile:only-child) + .empty { margin-top: 14px; }
+
+/* statistici: câte casete sunt, atâtea coloane egale */
+.stats { grid-template-columns: repeat(auto-fit, minmax(68px, 1fr)); }
+.stats small { line-height: 1.25; display: block; margin-top: 2px; }
+
+/* invitația din club: butoanele pe un rând, fără rupturi */
+.invite .btns { display: grid; grid-template-columns: 1.35fr 1fr; gap: 8px; }
+.invite .btns .btn { white-space: nowrap; font-size: 14px; padding: 0 10px; min-height: 46px; }
+.invite .btns .btn svg { flex: none; }
+
+/* turnee */
+.tcard2 .row > .grow > .small { display: block; margin-top: 2px; }
+.tcard2 .row > .grow > b { display: block; }
+.tlobby .topbar h1 { font-size: 21px; line-height: 1.15; min-width: 0; }
+.tlobby .topbar .tbadge { flex: none; }
+.me .tacts .btn { white-space: nowrap; font-size: 12.5px; padding: 0 6px; }
+.tlevel b { white-space: nowrap; }
+
+/* masa: avatarul tău nu iese din ecran */
+.seat .sav { left: -4px; }
+
+/* admin: casetele de jackpot / casă și formularele, aerisite */
+.bank > .row { flex-wrap: wrap; row-gap: 10px; }
+.bank > .row > .btn { flex: 1 1 100%; }
+.bulk .row .btn, .welcome .btn { white-space: nowrap; }
+.danger-zone { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.wipe-all .row { flex-wrap: wrap; row-gap: 10px; }
+[data-testid="admin-club"] > a.row { flex-wrap: wrap; row-gap: 10px; align-items: center; }
+[data-testid="admin-club"] > a.row > .grow { min-width: 0; flex: 1 1 0; }
+[data-testid="admin-club"] > a.row > .btn { flex: 1 1 100%; }
+.welcome { flex-wrap: wrap; row-gap: 8px; }
+.welcome > label { flex: 1 1 100%; }
+.welcome > input { flex: 1 1 auto; }
+
+/* membrii clubului: doar numele, fără eticheta de grad (proprietar / admin / membru) */
+#tab .list-item:has([data-testid="member-balance"]) .small { font-size: 0; gap: 0; }
+#tab .list-item:has([data-testid="member-balance"]) .small > .badge:not(.live) { display: none; }
+#tab .list-item:has([data-testid="member-balance"]) .small:not(:has(.live)) { display: none; }
+#tab .list-item:has([data-testid="member-balance"]) .small > .badge.live { margin-top: 4px; }
+/* intrarea la masă: interval minim–maxim și alegerea sumei */
+.buyin-range{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.buyin-range label{margin-top:4px}
+.buyin-sheet .bi-val{display:block;text-align:center;font-size:30px;font-weight:900;color:var(--gold,#f2cd6b);font-variant-numeric:tabular-nums}
+.buyin-sheet input[type=range]{width:100%;accent-color:var(--gold,#f2cd6b);height:32px}
+.buyin-sheet .bi-quick .btn{flex:1;min-height:40px}

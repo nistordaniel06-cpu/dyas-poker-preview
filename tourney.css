@@ -1,0 +1,68 @@
+/* DYAS Poker — turnee */
+.tbadge { display: inline-block; padding: 3px 8px; border-radius: 9px; font: 800 11px/1.3 var(--sans); white-space: nowrap; background: rgba(255,255,255,.08); color: var(--muted); }
+.tbadge.open { background: rgba(70,200,120,.16); color: #7ee2a0; }
+.tbadge.live { background: rgba(239,77,85,.18); color: #ff8a8f; }
+.tbadge.mine { background: rgba(242,205,107,.16); color: var(--gold); }
+.tcard2 { display: block; text-decoration: none; color: inherit; margin-bottom: 10px; border: 1px solid rgba(242,205,107,.18); }
+.tcard2 .tmeta { flex-wrap: wrap; gap: 6px 12px; margin-top: 8px; font-size: 12.5px; font-weight: 700; }
+.tcard2:active { transform: scale(.99); }
+
+.tform h3 { margin: 18px 0 6px; font-size: 15px; color: var(--gold); }
+.tform h4 { margin: 0 0 4px; font-size: 13.5px; }
+.tform small { display: block; color: var(--muted); font-size: 11.5px; margin-top: 3px; }
+.tform .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+.tform .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 8px; }
+.tform textarea { min-height: 70px; font-size: 13px; }
+.tform .checks { display: flex; gap: 8px; flex-wrap: wrap; }
+.tform .checks label { display: flex; align-items: center; gap: 6px; margin: 0; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line2); background: rgba(255,255,255,.04); font-weight: 800; }
+.tform .checks input { width: auto; margin: 0; }
+.tform .sub { margin-top: 10px; padding: 10px 12px; border-radius: 12px; border: 1px dashed rgba(242,205,107,.3); background: rgba(242,205,107,.04); }
+.tform .sub[hidden] { display: none; }
+.tform .seg { margin-top: 8px; flex-wrap: wrap; }
+.tform .linkbtn { margin: 4px 0 0; }
+
+.tlobby .topbar .tbadge { margin-left: 8px; }
+.tlevel { display: grid; grid-template-columns: 0.7fr 1.2fr 1.3fr; gap: 8px; margin: 4px 0 12px; padding: 12px; border-radius: 16px;
+  background: radial-gradient(120% 140% at 50% 0%, rgba(242,205,107,.16), rgba(0,0,0,.25)); border: 1px solid rgba(242,205,107,.3); text-align: center; }
+.tlevel small { display: block; color: var(--muted); font-size: 11px; font-weight: 700; }
+.tlevel b { font-family: var(--serif); font-size: 22px; color: var(--gold); font-variant-numeric: tabular-nums; }
+.tstart { margin: 4px 0 12px; padding: 12px; border-radius: 16px; text-align: center; font-weight: 800; background: rgba(70,200,120,.08); border: 1px solid rgba(70,200,120,.25); }
+.tstart small { color: var(--muted); font-weight: 700; }
+.tme { text-align: center; font-weight: 800; }
+.tbtns { display: grid; gap: 8px; margin: 10px 0; }
+.tbtns .btn { text-decoration: none; display: flex; align-items: center; justify-content: center; }
+.tadmin { margin-top: 12px; border-color: rgba(239,77,85,.25); }
+.trules .row, .pays .row, .tlevels .row { padding: 6px 0; border-bottom: 1px solid var(--line2); font-size: 13.5px; gap: 8px; }
+.trules .row:last-child, .pays .row:last-child { border-bottom: 0; }
+.trules b { text-align: right; }
+.tlevels summary { cursor: pointer; font-weight: 800; }
+.tlevels .row.cur { color: var(--gold); }
+.tlobby .list-item.out { opacity: .55; }
+.podium .list-item:first-child { border-color: rgba(242,205,107,.5); background: rgba(242,205,107,.08); }
+
+/* la masa de turneu */
+.tinfo { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 10px 2px; padding: 5px 10px; border-radius: 12px; font: 800 12px/1.2 var(--sans);
+  color: var(--gold); background: rgba(242,205,107,.1); border: 1px solid rgba(242,205,107,.25); text-decoration: none; }
+.tinfo span { color: var(--muted); font-weight: 700; }
+.me .tacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px; margin-top: 8px; }
+.me .tacts .btn { min-height: 40px; font-size: 13px; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+/* formular: jucători și mese, pornire, premii */
+.tform .seg button { white-space: nowrap; font-size: 14px; padding: 0 6px; min-width: 0; }
+.tform .seg.sizes { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 6px 0 4px; }
+.tform .seg.sizes button { min-height: 42px; font-variant-numeric: tabular-nums; }
+.tform .seg.seats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 6px 0 0; }
+.tform .seg.seats button.on small { opacity: 1; }
+.tform .seg.seats button { min-height: 54px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; line-height: 1.1; }
+.tform .seg.seats button b { font-size: 18px; }
+.tform .seg.seats button small { margin: 0; font-size: 10.5px; font-weight: 700; color: inherit; opacity: .75; }
+.tform .seg.starts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.tform .seg.pays { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.tform .seg.pays button { min-height: 42px; }
+.tplan { margin-top: 12px; padding: 12px; border-radius: 14px; background: rgba(242,205,107,.06); border: 1px solid rgba(242,205,107,.22); }
+.tplan:empty { display: none; }
+.tplan p { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+.tp-steps { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 13px; font-weight: 800; }
+.tp-steps span { padding: 6px 10px; border-radius: 99px; background: rgba(0,0,0,.28); border: 1px solid var(--line2); white-space: nowrap; }
+.tp-steps span b { color: var(--gold); }
+.tp-steps span.fin { border-color: rgba(242,205,107,.5); color: var(--gold); }
+.tp-steps i { font-style: normal; color: var(--muted); }

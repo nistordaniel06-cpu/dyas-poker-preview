@@ -1,0 +1,86 @@
+/* DYAS Poker — mod admin, reluare, online, realizări, mese private, timp în plus */
+
+/* ---------- mod admin: alt aspect decât aplicația de joc ---------- */
+body.admin-mode {
+  --gold: #8fb8ff; --gold-hi: #dbe8ff; --gold-lo: #3d6fd8;
+  --goldg: linear-gradient(135deg, #e3eeff 0%, #9cc0ff 35%, #5b8def 70%, #3a63c9 100%);
+  --panel: #0f1838; --panel2: #1a2a5a; --line: rgba(143, 184, 255, .2); --bg: #070b18;
+  background: radial-gradient(120% 60% at 50% -10%, #12204a 0%, #070b18 60%) fixed, #070b18;
+}
+body.admin-mode .screen.admin .topbar { padding: 10px 12px; margin: -4px -4px 14px; border-radius: 16px; background: rgba(91, 141, 239, .12); border: 1px solid rgba(143, 184, 255, .25); }
+body.admin-mode .screen.admin .topbar h1::after { content: "MOD ADMIN"; margin-left: 10px; padding: 3px 8px; border-radius: 8px; font: 800 10px/1.4 var(--sans); letter-spacing: .08em;
+  vertical-align: middle; background: #3a63c9; color: #fff; }
+body.admin-mode .card, body.admin-mode .list-item { border-color: rgba(143, 184, 255, .16); }
+body.admin-mode #tabbar { background: rgba(8, 14, 34, .9); border-color: rgba(143, 184, 255, .3); }
+body.admin-mode #tabbar a.on { background: rgba(143, 184, 255, .16); }
+#tabbar a.switch .ni { filter: none; opacity: 1; }
+body.admin-mode .card, body.admin-mode .list-item, body.admin-mode .kpi, body.admin-mode .stats > div { background: rgba(22, 34, 72, .55); }
+body.admin-mode .tabs { background: rgba(10, 18, 44, .7); }
+body.admin-mode .tabs button.on { background: rgba(91, 141, 239, .22); color: #dbe8ff; border-color: rgba(143, 184, 255, .4); }
+
+/* ---------- reluarea mâinii ---------- */
+.rp { position: fixed; inset: 0; z-index: 75; display: flex; align-items: flex-end; justify-content: center; }
+.rp-bg { position: absolute; inset: 0; background: rgba(0, 0, 0, .6); }
+.rp-box { position: relative; width: 100%; max-width: 560px; max-height: 92vh; display: flex; flex-direction: column; gap: 10px;
+  background: linear-gradient(180deg, #0d1d16, #07120d); border: 1px solid rgba(242, 205, 107, .2); border-bottom: 0; border-radius: 22px 22px 0 0;
+  padding: 12px 14px calc(14px + env(safe-area-inset-bottom, 0px)); animation: rpUp .2s ease-out; }
+@keyframes rpUp { from { transform: translateY(30px); opacity: 0; } }
+.rp-box header { display: flex; align-items: center; gap: 8px; }
+.rp-box header b { font-size: 16px; }
+.rp-box header .muted { flex: 1; }
+.rp-x { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line2); background: rgba(255, 255, 255, .05); color: var(--text); font-size: 22px; line-height: 1; }
+.rp-view { overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.rp-step { padding: 10px 12px; border-radius: 12px; background: rgba(242, 205, 107, .1); border: 1px solid rgba(242, 205, 107, .25); font-weight: 700; min-height: 22px; }
+.rp-board { display: flex; align-items: center; gap: 4px; justify-content: center; padding: 10px; border-radius: 14px; background: radial-gradient(#1c5a3d, #0d3322); }
+.rp-board .pcard { --w: 38px; }
+.rp-pot { margin-left: 8px; font-weight: 800; color: var(--gold); white-space: nowrap; }
+.rp-seats { display: grid; gap: 6px; }
+.rp-seat { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 12px; background: rgba(255, 255, 255, .04); border: 1px solid var(--line2); transition: background .2s; }
+.rp-seat.me { border-color: rgba(242, 205, 107, .35); }
+.rp-seat.act { background: rgba(242, 205, 107, .14); }
+.rp-seat.win { background: rgba(70, 200, 120, .16); border-color: rgba(70, 200, 120, .5); }
+.rp-seat.folded { opacity: .45; }
+.rp-cards { display: flex; gap: 2px; }
+.rp-cards .pcard { --w: 26px; }
+.rp-tag { font-size: 11px; font-weight: 800; text-transform: uppercase; padding: 3px 7px; border-radius: 8px; background: rgba(255, 255, 255, .08); }
+.rp-d { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: #fff; color: #111; font-size: 10px; font-weight: 900; }
+.rp-prog { height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .08); overflow: hidden; }
+.rp-prog i { display: block; height: 100%; background: var(--goldg); transition: width .2s; }
+.rp-ctl { display: flex; gap: 8px; justify-content: center; }
+.rp-ctl button { flex: 1; max-width: 70px; height: 44px; border-radius: 14px; border: 1px solid var(--line2); background: rgba(255, 255, 255, .06); color: var(--text); font-size: 16px; }
+.rp-ctl .play { background: var(--goldg); color: #231904; border: 0; font-weight: 900; }
+.rp-count { text-align: center; }
+.hand-card .replay-btn { margin-top: 8px; }
+
+/* ---------- online în club ---------- */
+.online { margin: 0 0 14px; padding: 12px; border-radius: 16px; background: rgba(70, 200, 120, .06); border: 1px solid rgba(70, 200, 120, .22); }
+.online-h { font-weight: 800; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.online-h .dot { width: 8px; height: 8px; border-radius: 50%; background: #46c878; box-shadow: 0 0 0 3px rgba(70, 200, 120, .2); }
+.online-list { display: grid; gap: 6px; }
+.on-p { display: flex; align-items: center; gap: 10px; }
+.on-p .av { width: 32px; height: 32px; font-size: 16px; }
+.on-p small { display: block; color: var(--muted); font-size: 12px; }
+.on-p.me { opacity: .75; }
+
+/* ---------- butonul de chat al clubului ---------- */
+.club-chat { position: relative; display: flex; align-items: center; gap: 10px; width: 100%; margin: 0 0 14px; }
+.club-chat .unread { position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: #ef4d55; color: #fff;
+  font: 800 11px/18px var(--sans); text-align: center; }
+.club-chat .unread[hidden] { display: none; }
+
+/* ---------- realizări ---------- */
+.ach-stats { margin-bottom: 10px; }
+.ach { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+.ach-i { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 3px; padding: 10px 6px; border-radius: 14px;
+  background: rgba(255, 255, 255, .03); border: 1px solid var(--line2); opacity: .55; }
+.ach-i.on { opacity: 1; background: rgba(242, 205, 107, .08); border-color: rgba(242, 205, 107, .3); }
+.ach-i .ic { font-size: 26px; line-height: 1.1; }
+.ach-i b { font-size: 12.5px; }
+.ach-i small { font-size: 10.5px; color: var(--muted); line-height: 1.25; }
+
+/* ---------- masă privată, timp în plus ---------- */
+.lock { margin-left: 4px; }
+.xtra { display: flex; justify-content: center; margin-top: 6px; }
+.xtra .linkbtn { margin: 0; color: var(--gold); font-weight: 700; text-decoration: none; border: 1px solid rgba(242, 205, 107, .35); border-radius: 10px; padding: 5px 10px; }
+.pwrow { display: flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 13px; color: var(--muted); }
+.pwrow input[type=checkbox] { width: auto; margin: 0; }

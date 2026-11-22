@@ -1,0 +1,88 @@
+/* DYAS Poker • shared presentation layer for the original client and the preview. */
+html:root {
+  --bg: #0d1414; --bg2: #101c1b; --panel: #172321; --panel-solid: #172321;
+  --panel2: #21332e; --line: #43554a; --line2: #2c3a35; --text: #f6f4e9;
+  --muted: #bbc6bd; --gold: #e5c990; --gold-hi: #fae5ae; --gold-lo: #aa874e;
+  --goldg: linear-gradient(115deg,#f1dab0,#d6b277); --serif: Georgia, "Times New Roman", serif;
+}
+html body {background: radial-gradient(ellipse at 50% 0,#172a24 0,transparent 36rem),var(--bg);font-variant-numeric:tabular-nums}
+#app .screen,.cx .screen {padding-inline:clamp(16px,4.5vw,30px)}
+#app .appbar {border-bottom:1px solid var(--line2);padding-block:12px;margin-bottom:22px}
+#app .wordmark {color:var(--text);text-shadow:none;letter-spacing:.12em}
+#app .wordmark span {color:var(--gold)}
+#app .screen h1,.cx .screen h1 {font:500 clamp(1.6rem,5.7vw,2.35rem)/1.06 var(--serif);letter-spacing:-.045em}
+#app .screen h2,.cx .screen h2 {font:750 .84rem/1.4 var(--sans);letter-spacing:.09em;color:#cad3c9;margin-top:24px}
+#app .cx-hello {position:relative;isolation:isolate;overflow:hidden;min-height:145px;align-content:end;align-items:end;padding:20px 16px;margin:0 0 20px;gap:8px;
+ background:linear-gradient(0deg,#061410 2%,#08191170 57%,transparent),url('./club.webp') 68% 44%/cover;border:1px solid #576148;border-radius:20px}
+#app .cx-hello h1 {color:#fbf8ef;text-wrap:balance}
+#app .cx-hello .sub {color:#d1d7ca;margin:0}
+#app .cx-hello .cx-btn {border-radius:99px;background:#efe0bd;border-color:transparent;box-shadow:none;color:#201f17;min-height:44px;padding-inline:13px;align-self:end}
+#app .cx-hello .cx-wallet {color:inherit}
+#app .screen :is(.list-item,.card,.tile,.friend,.profile-head),.cx :is(.cx-card,.cx-row,.cx-pkg,.cx-method),.admin .kpi {
+ background:var(--panel);border:1px solid var(--line2);border-radius:14px;box-shadow:none}
+#app .screen .list-item {min-height:70px;padding:13px 14px;gap:13px}
+#app .list-item .grow {min-width:0;overflow-wrap:anywhere}
+#app .list-item .t {font-size:1rem;line-height:1.35}
+#app .screen .table-ic {position:relative;display:grid;place-items:center;width:44px;height:44px;flex:0 0 44px;border-radius:50%;border:3px dashed #cfbc8d;outline:1px solid #435343;outline-offset:2px;background:#264338;color:#efe7cd;font:1.4rem Georgia}
+#app .list-item .badge {font-size:.78rem;padding:5px 9px;border-radius:99px}
+#app .list-item .badge.live {background:#214939;color:#b2edc6}
+#app .club-hero,.cx .cx-hero {background:linear-gradient(110deg,#0e2b20 0%,#11261ee8 55%,#17251dbd),url('./club.webp') center/cover;border:1px solid #4d604c;border-radius:18px;box-shadow:none}
+#app .stats[data-testid="home-week"] {grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line2);background:#18251f;border-radius:16px;overflow:hidden}
+#app .stats[data-testid="home-week"]>div {background:none;border:0;border-radius:0;padding:16px 3px}
+#app .stats[data-testid="home-week"]>div+div {border-left:1px solid var(--line2)}
+#app .stats b {font:500 1.6rem/1.2 var(--serif)}
+#app .stats small {font-size:.8rem}
+#app .screen .jp-link {background:linear-gradient(120deg,#292820,#19261e);padding:12px;border:1px solid #665d43;border-radius:15px}
+#app .hs-empty {padding:14px;line-height:1.6}
+#app .hs-empty a {display:inline-block;text-underline-offset:3px}
+#app .landing .hero-logo {height:64px;width:64px;animation:none;filter:none}
+#app .landing .wordmark {font:500 2.45rem/1.15 var(--serif)}
+#app .landing .fan {margin-block:12px}
+#app .landing .auth {background:var(--panel);padding:20px;border:1px solid var(--line);border-radius:18px}
+#app .landing input,.cx input:not([type=checkbox]),.cx select {background:#0e1917;color:var(--text);border:1px solid #53645a;min-height:46px;font-size:16px}
+#app .landing .features .feature {min-height:0;background:none;display:block;color:var(--muted);border:0;border-radius:0;padding:6px}
+#app .tabs,.cx .cx-seg {background:#101b18;border:1px solid var(--line2);padding:4px;border-radius:14px}
+#app .tabs button,.cx .cx-seg button {min-height:44px}
+#app .tabs .on,.cx .cx-seg .on {background:#30453a;color:#fff3d5}
+#app .btn.primary,.cx .cx-go {background:var(--goldg);color:#222018;border:0;border-radius:12px;box-shadow:none}
+#app .screen .profile-head {border-left:3px solid var(--gold)}
+.cx .cx-pkg {padding:12px 8px;min-height:70px}
+.cx .cx-pkg.on {border-color:var(--gold);background:#30392a;box-shadow:inset 0 0 0 1px var(--gold)}
+.cx .cx-pkg small {font-size:.8rem}
+body #tabbar {padding:5px;background:#13201dec!important;border:1px solid #4a5a4f;border-radius:19px}
+body #tabbar a {min-height:45px;justify-content:center;gap:3px;font-size:.78rem}
+body #tabbar a.on {background:#2d4135;color:#ffe5ab}
+#app .table-screen .tbar {background:#111b19;border-bottom:1px solid #ffffff22}
+#app .table-screen .pot {color:#fff0c8;letter-spacing:.04em}
+#app .table-screen .seat:not(.win,.turn) .box {border-color:#78806e;background:linear-gradient(#27352e,#14201c)}
+#app .table-screen .seat.free .box {background:#0f1918d9;border:1px dashed #9ba592;color:#e3e6d9}
+#app .table-screen .seat.turn .box {outline:2px solid #ffe3a3;outline-offset:2px}
+#app .table-screen .msg {background:#0e1918d9;color:white;border-radius:10px}
+:where(#app,.cx,#tabbar) :is(a,button,input,select,textarea):focus-visible {outline:3px solid #f4ce82;outline-offset:2px}
+@media(max-width:380px){#app .cx-hello {padding:16px 12px;column-gap:6px}.cx .cx-pkgs {grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){#app .hero-logo,#app .jackpot .bulbs {animation:none}}
+html:root {--bg:#101114;--bg2:#18191e;--panel:#1d1f25;--panel-solid:#1d1f25;--panel2:#2b2d34;--line:#494a53;--line2:#34363d;--text:#f8f8f9;--muted:#b4b5c0;--gold:#f0c58e;--goldg:linear-gradient(115deg,#ffe3b5,#d3a377);--arena-red:#c52343;--serif:"Arial",system-ui,sans-serif}
+html body {background:radial-gradient(ellipse at 50% 0,#2b2028,transparent 33rem),var(--bg)}
+#app .appbar .wordmark,#app .landing .wordmark {font:900 italic 1.6rem/1 system-ui;letter-spacing:-.06em;color:white} 
+#app .wordmark span {color:#ff5364}
+#app .cx-hello {min-height:152px;background:linear-gradient(75deg,#251018 0%,#391420e6 45%,#270b1255 100%),url('./club.webp') 75% 45%/cover;border-color:#653542;border-radius:12px}
+#app .screen h1,.cx .screen h1 {font:800 clamp(1.65rem,5.5vw,2.25rem)/1.05 system-ui;letter-spacing:-.055em}
+#app .cx-hello .cx-btn,#app .btn.primary,.cx .cx-go {background:var(--arena-red);color:white;border:1px solid #e3445b;border-radius:8px}
+#app .club-hero,.cx .cx-hero {background:linear-gradient(105deg,#25141e,#34151fe0 60%,#32152088),url('./club.webp') center/cover;border-color:#663a46}
+#app .screen .list-item {background:linear-gradient(105deg,#24262d,#1c1d23);border-color:#35363f;border-radius:10px}
+#app .screen .table-ic {background:#5c2030;color:#fff3ed;border-color:#e9aab7;outline-color:#693946}
+#app .stats[data-testid="home-week"] {background:#212128;border-radius:12px}
+#app .stats b {font:750 1.4rem/1.25 system-ui}
+body #tabbar {background:#1a1b20f5!important;border-color:#43434d}
+body #tabbar a.on,#app .tabs .on,.cx .cx-seg .on {background:#512431;color:#ffe8ed}
+#app .table-screen[data-theme="green"] {background:radial-gradient(ellipse at 50% 39%,#2b2d30,#141418 60%,#090a0c)}
+#app .table-screen[data-theme="green"] .felt {--m0:linear-gradient(95deg,#4b464a,#16171a 26%,#343037 80%,#545258);--m1:var(--tx-leather) 0 0/140px 140px,#262428;--stitch:#847779;--m3:var(--tx-fiber) 0 0/180px 180px,radial-gradient(ellipse at 50% 40%,#28654e,#114534 75%,#0b3427);--inner-line:1px solid #b2c4a455}
+#app .table-screen .tbar {background:#1b1b21}
+#app .table-screen .seat:not(.win,.turn) .box {background:linear-gradient(#28282e,#19191e);border-color:#62636c}
+#app .table-screen .seat.turn .box {outline-color:#ff6b77}
+.arena-face {display:inline-block;vertical-align:middle;width:100%;height:100%;border-radius:inherit;background-image:url('./avatars.webp');background-size:400% 400%;background-position:var(--face-x) var(--face-y);background-repeat:no-repeat}
+#app .avatars button[data-av] {padding:2px;overflow:hidden;aspect-ratio:1}
+#app .avatars button[data-av].on {outline:2px solid #ff5d70}
+#app .avatars button[data-av] .arena-face {border-radius:8px}
+#app .seat .sav:has(.arena-face) {width:28px;height:28px;border-radius:50%;top:-16px}
+#app .tbar .back,#app .tb-btn {background:#292930;color:#fafafa}

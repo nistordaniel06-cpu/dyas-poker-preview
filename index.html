@@ -1,29 +1,40 @@
 <!doctype html>
-<html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#10110f"><title>DYAS Poker · Club privat</title>
-<style>
-:root{color-scheme:dark;--ink:#f7f3e9;--gold:#e9ca8b;--muted:#b5b5a9;--line:#353730;--panel:#1b1d19}*{box-sizing:border-box}body{margin:0;background:#10110f;color:var(--ink);font:16px/1.45 'DM Sans',system-ui,sans-serif}header,main,nav{max-width:640px;margin:auto}header,.row,nav,.between{display:flex;align-items:center}.between,header{justify-content:space-between}header{height:76px;border-bottom:1px solid var(--line);padding:0 22px}.brand{font:25px Georgia,serif;letter-spacing:-1px}.brand b{color:var(--gold);font-weight:normal}.demo,.label{font-size:11px;letter-spacing:.13em;text-transform:uppercase}.demo{color:var(--gold);border:1px solid #61563d;border-radius:30px;padding:4px 10px}.label{font-weight:650;color:var(--muted)}main{padding:24px 20px 100px}h1,h2,h3,p{margin:0}h1{font:clamp(31px,7vw,45px)/1.1 Georgia,serif;letter-spacing:-1.4px}h2{font:26px/1.1 Georgia,serif;letter-spacing:-.7px}h3{font-size:17px}small,.muted{color:var(--muted)}.row{gap:10px}.between{gap:8px}button,a{font:inherit;-webkit-tap-highlight-color:transparent}button,.button{cursor:pointer;border:1px solid var(--line);background:#242620;color:var(--ink);border-radius:12px;padding:11px 14px;font-weight:650}.gold,.button.gold{background:var(--gold);color:#211d15;border-color:var(--gold)}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px}.hero{margin:22px 0 25px;position:relative;overflow:hidden;border:1px solid #4a5647;border-radius:20px;background:radial-gradient(ellipse at 95% 0%,#3b574b,transparent 60%),linear-gradient(120deg,#1f322b,#14241d);padding:22px}.hero h2{font-size:37px;margin:12px 0 2px;position:relative}.hero p{font-size:14px;color:#d0dacf}.hero .button{display:inline-block;margin-top:22px;position:relative}.cards{position:absolute;right:22px;top:24px;width:79px;height:110px;transform:rotate(12deg);background:#eadcb9;color:#25382b;border:3px double #a79e7d;border-radius:8px;box-shadow:0 9px 20px #0005;padding-left:7px;font:22px Georgia}.cards:before{content:'';position:absolute;inset:5px 10px -5px -10px;border-radius:8px;background:repeating-linear-gradient(45deg,#395145 0 3px,#526857 3px 4px);border:3px double #acb59e;transform:rotate(-17deg) translateX(-10px);z-index:-1}.cards i{display:block;text-align:center;font:51px Georgia}.stats,.grid{display:grid;gap:9px;margin:14px 0 22px}.stats{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:repeat(2,1fr)}.stat,.box,.item{border:1px solid var(--line);border-radius:15px;background:var(--panel);padding:15px}.stat strong{display:block;font:25px Georgia;color:var(--gold)}.stat small{font-size:12px}.box{margin:14px 0}.item{margin:9px 0;display:flex;align-items:center;justify-content:space-between;gap:10px}.item small{display:block}.tableicon{border:3px solid #816e52;outline:1px solid #34382c;background:radial-gradient(#476955,#254935);border-radius:50%;width:45px;height:29px;flex-shrink:0}.detail{width:150px;height:85px;margin:24px auto;border-width:6px}.mark{color:var(--gold)}.end{color:#aaa797}.tabs{display:flex;gap:5px;padding:4px;background:#191b17;border:1px solid var(--line);border-radius:15px;margin:18px 0}.tabs button{flex:1;background:transparent;border-color:transparent;padding:10px 4px;font-size:14px}.tabs .on,.pick.on{background:#373329;border-color:#877044;color:var(--gold)}.pick{text-align:left;min-height:62px}.pick small{display:block}.balance{font:39px Georgia;color:var(--gold);margin:5px 0}.note{font-size:13px;color:var(--muted);margin:12px 0}.wide{width:100%}.pending{color:#f1c372}.full{margin-top:18px}.footer{position:fixed;bottom:0;left:0;right:0;background:#151612f5;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}nav{display:flex;justify-content:space-around;padding:6px}nav a{min-width:65px;text-align:center;color:var(--muted);font-size:12px;padding:3px 5px}nav b{display:block;font:22px/1.25 Georgia}nav [aria-current]{color:var(--gold)}input{width:100%;padding:12px;margin:8px 0;border:1px solid var(--line);background:#10110f;color:var(--ink);border-radius:10px;font:inherit}.feedback{min-height:1.4em;color:var(--gold)}@media(max-width:355px){main{padding-inline:13px}.cards{right:10px;transform:scale(.78) rotate(12deg);transform-origin:right top}.stat{padding:10px}.item{padding:10px}}@media(min-width:700px){body{background:radial-gradient(ellipse at 50% 0,#22251e,#10110f 64%) fixed}main{padding-top:36px}.hero{padding:32px}.cards{right:45px;top:38px}}
-</style></head><body>
-<header><a class="brand" href="#acasa"><b>♤ DYAS</b> Poker</a><span class="demo">Demo</span></header>
-<main id="screen"></main><div class="footer"><nav aria-label="Navigare"></nav></div>
-<script>
-const screen=document.querySelector('main');
-const nav=document.querySelector('nav');
-const pages={acasa:['⌂','Acasă'],mese:['♧','Mese'],casierie:['▤','Casierie'],profil:['♙','Profil']};
-const tables=[['Masa 1',9,4],['6-Max',6,0],['Heads-up',2,2]];
-const nf=new Intl.NumberFormat('ro-RO');
-const fmt=n=>nf.format(n);
-let tab='Depunere',amount=5,method='Revolut',filter='Toate',requests=[];
-function active(value,current){return value===current?'on':''}
-function home(){return `<div class="between"><h1>Salut, Nistor!</h1><a class="button gold" href="#casierie">▤ Casierie</a></div><p class="muted">Unde jucăm azi?</p><section class="hero"><div class="cards" aria-hidden="true">A<i>♠</i></div><span class="label">Club privat</span><h2>DYAS Club</h2><p>13 membri · 3 mese</p><a class="button gold" href="#mese">Vezi mesele &nbsp; →</a></section><h2>Săptămâna ta</h2><div class="stats"><div class="stat"><strong>12</strong><small>Mâini jucate</small></div><div class="stat"><strong>8</strong><small>Mâini câștigate</small></div><div class="stat"><strong>+750</strong><small>Coins net</small></div></div><h2>Se joacă acum</h2>${tableItem(0)}`}
-function tableItem(i){const [name,size,used]=tables[i];return `<a class="item" href="#masa-${i}"><div class="row"><span class="tableicon"></span><div><h3>${name}</h3><small>${used} din ${size} locuri ocupate</small></div></div><span class="mark">25/50 ›</span></a>`}
-function switches(values,current,action){return `<div class="tabs">${values.map(v=>`<button class="${active(v,current)}" aria-pressed="${v===current}" data-action="${action}" data-value="${v}">${v}</button>`).join('')}</div>`}
-function tableList(){return `<p class="label">DYAS Club</p><h1>Mese</h1>${switches(['Toate','Locuri libere','În joc'],filter,'filter')}${tables.map(([n,s,u],i)=>filter==='Locuri libere'&&u===s||filter==='În joc'&&u<2?'':tableItem(i)).join('')}`}
-function tableDetail(i){const [name,size,used]=tables[i];return `<a class="mark" href="#mese">← Toate mesele</a><div class="box"><span class="label">DYAS Club</span><h1>${name}</h1><div class="tableicon detail"></div><p>${used} din ${size} locuri ocupate</p><p class="muted">Texas Hold’em · Blinds 25/50</p></div>`}
-function choice(v,label,sub,current,action){return `<button class="pick ${active(v,current)}" aria-pressed="${v===current}" data-action="${action}" data-value="${v}">${label}<small>${sub}</small></button>`}
-function cashier(){const reserved=requests.filter(r=>r.type==='Retragere').reduce((sum,r)=>sum+r.coins,0);return `<h1>Casierie</h1><div class="box"><span class="label">Sold demo</span><div class="balance">1.500 <small>coins</small></div></div>${switches(['Depunere','Retragere','Istoric'],tab,'tab')}${tab==='Depunere'?`<h2>Alege un pachet</h2><div class="grid">${[5,10,25,50,100].map(v=>choice(v,v+' €',fmt(v*100)+' coins',amount,'amount')).join('')}</div><h3>Metodă de plată</h3>${switches(['Revolut','Transfer bancar'],method,'method')}<button class="gold wide" data-action="deposit">Simulează depunerea de ${amount} €</button>`:tab==='Retragere'?`<form id="withdraw"><label for="coins">Coins de retras</label><input id="coins" type="number" required min="1" max="${500-reserved}" step="1" inputmode="numeric" placeholder="Ex. 100"><p class="note">Disponibile pentru retragere în demo: ${fmt(500-reserved)} coins.</p><button class="gold wide" ${reserved>=500?'disabled':''}>Simulează retragerea</button></form>`:requests.length?requests.map(r=>`<div class="item"><div><h3>${r.type} · ${fmt(r.coins)} coins</h3><small>${r.method}</small></div><small class="pending">În așteptare</small></div>`).join(''):'<div class="box">Nicio cerere în această sesiune.</div>'}<p class="note">Simulare cu jetoane fictive. Cererile sunt păstrate doar în această sesiune.</p>`}
-function render(){const route=location.hash.slice(1)||'acasa';const match=route.match(/^masa-([0-2])$/);const page=match?'mese':Object.hasOwn(pages,route)?route:'acasa';nav.innerHTML=Object.entries(pages).map(([key,[icon,label]])=>`<a href="#${key}" ${page===key?'aria-current="page"':''}><b aria-hidden="true">${icon}</b>${label}</a>`).join('');screen.innerHTML=match?tableDetail(Number(match[1])):page==='mese'?tableList():page==='casierie'?cashier():page==='profil'?'<h1>Profil</h1><div class="box"><h2>Nistor</h2><p class="muted">Membru · DYAS Club</p></div><a class="button" href="#casierie">Deschide casieria</a>':home()}
-function record(type,coins,source){requests.unshift({type,coins,method:source});tab='Istoric';render()}
-screen.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const v=b.dataset.value;switch(b.dataset.action){case 'tab':tab=v;break;case 'amount':amount=Number(v);break;case 'method':method=v;break;case 'filter':filter=v;break;case 'deposit':record('Depunere',amount*100,method);return}render()});
-screen.addEventListener('submit',e=>{if(e.target.id!=='withdraw')return;e.preventDefault();if(e.target.reportValidity())record('Retragere',Number(document.querySelector('#coins').value),'Cerere demo')});
-addEventListener('hashchange',()=>{render();window.scrollTo(0,0)});render();
-</script></body></html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050d0a">
+  <title>DYAS Poker — cluburi private de poker</title>
+  <meta name="description" content="Cluburi private de poker cu prietenii, până la 9 la masă. Doar jetoane de joc.">
+  <meta property="og:title" content="DYAS Poker — hai la masă!">
+  <meta property="og:description" content="Club privat de poker cu prietenii. Intră cu linkul și ia loc la masă.">
+  <meta property="og:image" content="https://dyas-poker-4-men.vercel.app/og.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon-512.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DYAS Poker">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Manrope:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/extra.css">
+  <link rel="stylesheet" href="/fx.css">
+  <link rel="stylesheet" href="/dm.css">
+  <link rel="stylesheet" href="/cashier.css">
+  <link rel="stylesheet" href="/arena.css">
+</head>
+<body>
+  <div id="app"><div class="boot" aria-label="Se încarcă"><img src="/icon.svg" alt=""><i></i></div></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/app.js"></script>
+  <script type="module" src="/extra.js"></script>
+  <script type="module" src="/fx.js"></script>
+  <script type="module" src="/dm.js"></script>
+  <script type="module" src="/cashier.js"></script>
+  <script type="module" src="/pushtest.js"></script>
+<script type="module" src="/arena.js"></script></body>
+</html>

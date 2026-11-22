@@ -1,0 +1,31 @@
+/* DYAS Poker — stiluri doar pentru panoul administratorului */
+.admin .tabs.scroll .dot { margin-left: 4px; }
+.charts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.chart { padding: 12px; margin: 0; }
+.ch-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; font-size: 13px; margin-bottom: 8px; }
+.ch-head span { color: var(--gold); font-weight: 800; white-space: nowrap; }
+.ch-head small { color: var(--muted); font-weight: 600; }
+.bars { display: flex; align-items: flex-end; gap: 2px; height: 70px; border-bottom: 1px solid var(--line2); }
+.bar { flex: 1; height: 100%; display: flex; align-items: flex-end; }
+.bar i { display: block; width: 100%; border-radius: 3px 3px 0 0; background: rgba(242,205,107,.55); min-height: 0; }
+.bar.today i { background: var(--goldg); }
+.axis { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--muted); margin-top: 4px; font-weight: 700; }
+.live-btns { margin-top: 10px; gap: 8px; }
+.live-btns .btn { flex: 1; }
+.bulk { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line2); display: grid; gap: 6px; }
+.bulk input { margin: 0; }
+.welcome { margin-top: 10px; }
+.danger-zone { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(239,77,85,.25); text-align: right; }
+.acct { display: flex; flex-wrap: wrap; gap: 8px; }
+select { width: 100%; padding: 14px; border-radius: 14px; border: 1px solid var(--line2); background: rgba(0,0,0,.35); color: var(--text); font: inherit; }
+.news-item p { margin: 8px 0 0; color: #cfe0d7; font-size: 14px; white-space: pre-line; }
+@media (max-width: 370px) { .charts { grid-template-columns: 1fr; } }
+.admin .dot[hidden] { display: none; }
+.bank { margin-top: 12px; padding: 12px; border-radius: 14px; background: rgba(240,192,90,.07); border: 1px solid rgba(240,192,90,.22); }
+.bank .chips { font-size: 20px; }
+.admin .sec{font-size:15px;margin:14px 2px 8px}
+.admin .rep-body{margin:10px 0}
+.admin .rep-txt{background:rgba(255,255,255,.05);border-radius:10px;padding:8px 10px;white-space:pre-wrap;word-break:break-word}
+.admin .rep-body img{max-width:100%;max-height:240px;border-radius:10px;display:block}
+.admin .rep-body audio{width:100%}
+.admin .row.wrap{flex-wrap:wrap;gap:6px}

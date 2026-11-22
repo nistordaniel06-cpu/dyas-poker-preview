@@ -1,0 +1,78 @@
+/* Animațiile mesei (public/fx.js) */
+#fx { position: fixed; inset: 0; pointer-events: none; z-index: 70; overflow: hidden; }
+.flychip { display: none; } /* înlocuit de fluxul de jetoane din fx.js */
+
+/* jeton de cazino: margine cu dungi, centru alb, inel interior */
+.fx-chip { position: absolute; left: 0; top: 0; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; will-change: transform, opacity;
+  --c: #d8343c; --e: #fff;
+  background: radial-gradient(circle, #fff 0 30%, var(--c) 31% 52%, transparent 53%), repeating-conic-gradient(var(--c) 0 30deg, var(--e) 30deg 45deg);
+  box-shadow: 0 0 0 1.5px rgba(0,0,0,.35), 0 3px 6px rgba(0,0,0,.55), inset 0 -2px 0 rgba(0,0,0,.25); }
+.fx-chip.g { --c: #1f9d5a; }
+.fx-chip.b { --c: #2f6fe0; }
+.fx-chip.k { --c: #1b1b1f; --e: #f2cd6b; }
+
+.fx-float { position: absolute; transform: translate(-50%, -50%); font: 900 15px/1 Manrope, system-ui, sans-serif; color: #7dffb2; white-space: nowrap;
+  text-shadow: 0 2px 0 #06301a, 0 0 14px rgba(125,255,178,.6); animation: fxUp 2.1s cubic-bezier(.2,.8,.3,1) both; }
+.fx-float.mine { color: var(--gold-hi, #fff1b8); font-size: 19px; text-shadow: 0 2px 0 #5a3a07, 0 0 18px rgba(242,205,107,.8); }
+.fx-float.allin { color: #fff; font: 800 13px/1 Cinzel, serif; letter-spacing: .12em; padding: 6px 10px; border-radius: 8px;
+  background: linear-gradient(135deg, #ff5a5f, #a3141c); box-shadow: 0 0 0 2px rgba(255,255,255,.35), 0 0 22px rgba(255,80,80,.7); animation: fxAllin 1.6s ease-out both; }
+@keyframes fxUp { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.6); } 15% { opacity: 1; transform: translate(-50%, -90%) scale(1.15); }
+  70% { opacity: 1; transform: translate(-50%, -150%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -190%) scale(.95); } }
+@keyframes fxAllin { 0% { opacity: 0; transform: translate(-50%, -50%) scale(2.2) rotate(-8deg); } 18% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-4deg); }
+  75% { opacity: 1; transform: translate(-50%, -120%) scale(1) rotate(-4deg); } 100% { opacity: 0; transform: translate(-50%, -150%) scale(.9); } }
+.fx-spark { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: radial-gradient(circle, #fff, #f2cd6b 60%, transparent 70%); }
+
+/* mesajul de mână câștigată: panglică aurie, mai discretă decât trofeul */
+.fx-banner { position: absolute; transform: translate(-50%, -50%); width: min(86vw, 340px); text-align: center; animation: fxIn .5s cubic-bezier(.2,.9,.25,1.25) both; }
+.fx-banner.out { animation: fxOut .32s ease-in both; }
+.fx-rib { position: relative; padding: 11px 16px 12px; border-radius: 14px; overflow: hidden;
+  background: linear-gradient(180deg, rgba(14,22,18,.94), rgba(6,10,8,.94)); border: 1px solid rgba(242,205,107,.55);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.6), 0 14px 34px rgba(0,0,0,.6), 0 0 30px rgba(242,205,107,.18), inset 0 1px 0 rgba(255,255,255,.08); }
+.fx-rib::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255,241,184,.22) 50%, transparent 65%);
+  transform: translateX(-120%); animation: fxShine 1.6s .35s ease-in-out; }
+.fx-rib small { display: block; font: 800 10.5px/1 Manrope, sans-serif; letter-spacing: .2em; text-transform: uppercase; color: #9fd8b8; margin-bottom: 5px; }
+.fx-rib b { display: block; font: 800 24px/1.1 Cinzel, serif; background: var(--goldg); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 2px 0 rgba(0,0,0,.6)); }
+.fx-rib span { display: block; margin-top: 6px; font: 600 13px/1.35 Manrope, sans-serif; color: #e9efe9; }
+.fx-rib em { font-style: normal; font-weight: 800; color: #fff; }
+.fx-banner.mine .fx-rib { border-color: #f2cd6b; box-shadow: 0 14px 34px rgba(0,0,0,.6), 0 0 40px rgba(242,205,107,.45); }
+.fx-banner.mine .fx-rib small { color: var(--gold, #f2cd6b); }
+.fx-banner.strong .fx-rib b, .fx-banner.big .fx-rib b { font-size: 28px; }
+.fx-banner.split .fx-rib b { font-size: 19px; }
+/* Ultimii 3 / Heads-up */
+.fx-banner.count .fx-rib { padding: 14px 16px; }
+.fx-banner.count .fx-rib b { font-size: 34px; letter-spacing: .04em; }
+.fx-banner.three .fx-rib { border-color: rgba(255,140,60,.7); box-shadow: 0 14px 34px rgba(0,0,0,.6), 0 0 34px rgba(255,120,40,.35); }
+.fx-banner.three .fx-rib small { color: #ffb36b; letter-spacing: .4em; font-size: 13px; }
+.fx-banner.two .fx-rib { border-color: rgba(255,80,90,.8); background: linear-gradient(180deg, rgba(40,8,12,.95), rgba(10,4,6,.95));
+  box-shadow: 0 14px 34px rgba(0,0,0,.6), 0 0 40px rgba(255,60,70,.4); }
+.fx-banner.two .fx-rib small { color: #ff8a90; }
+.fx-banner.two .fx-rib b { background: linear-gradient(180deg, #fff 0%, #ffd2d4 45%, #ff5a62 100%); -webkit-background-clip: text; background-clip: text; }
+@keyframes fxIn { from { opacity: 0; transform: translate(-50%, -50%) scale(.6); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes fxOut { to { opacity: 0; transform: translate(-50%, -64%) scale(.96); } }
+@keyframes fxShine { to { transform: translateX(120%); } }
+
+/* trofeul câștigătorului mesei */
+.fx-trophy { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 20px;
+  background: radial-gradient(circle at 50% 40%, rgba(60,44,8,.88), rgba(0,0,0,.94) 70%); animation: fxFade .45s ease-out both; }
+.fx-trophy.out { animation: fxFade .4s ease-in reverse both; }
+.fx-tbox { position: relative; text-align: center; width: min(92vw, 360px); animation: fxPop .7s .1s cubic-bezier(.2,.9,.25,1.3) both; }
+.fx-rays { position: absolute; left: 50%; top: 92px; width: 520px; height: 520px; margin: -260px 0 0 -260px; z-index: -1; border-radius: 50%;
+  background: repeating-conic-gradient(rgba(255,226,140,.16) 0 9deg, transparent 9deg 22deg);
+  -webkit-mask: radial-gradient(circle, #000 18%, transparent 62%); mask: radial-gradient(circle, #000 18%, transparent 62%); animation: fxSpin 18s linear infinite; }
+.fx-cup { width: 150px; height: auto; filter: drop-shadow(0 10px 22px rgba(0,0,0,.6)) drop-shadow(0 0 28px rgba(242,205,107,.55)); animation: fxCup 2.6s ease-in-out infinite; }
+.fx-kick { display: block; margin-top: 8px; font: 800 12px/1 Manrope, sans-serif; letter-spacing: .28em; text-transform: uppercase; color: #ffe39a; }
+.fx-name { margin-top: 10px; font: 800 clamp(28px, 9vw, 40px)/1.1 Cinzel, serif; overflow-wrap: anywhere;
+  background: var(--goldg); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 3px 0 rgba(0,0,0,.7)); }
+.fx-line { margin-top: 10px; font: 600 14.5px/1.4 Manrope, sans-serif; color: #f4efe2; }
+.fx-amt { margin-top: 6px; font: 800 18px/1.2 Manrope, sans-serif; color: #7dffb2; text-shadow: 0 0 14px rgba(125,255,178,.4); }
+.fx-ok { pointer-events: auto; margin-top: 20px; padding: 12px 26px; border: 0; border-radius: 99px; font: 800 15px Manrope, sans-serif; color: #231904; cursor: pointer;
+  background: var(--goldg); box-shadow: 0 8px 22px rgba(210,160,60,.35), inset 0 1px 0 rgba(255,255,255,.5); }
+.fx-conf { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.fx-conf i { position: absolute; top: -20px; width: 8px; height: 14px; border-radius: 2px; animation: fxConf 3s linear infinite both; }
+@keyframes fxConf { from { transform: translateY(-20px) rotate(0); } to { transform: translateY(110vh) rotate(var(--r)); } }
+@keyframes fxSpin { to { transform: rotate(360deg); } }
+@keyframes fxCup { 50% { transform: translateY(-6px) rotate(-2deg); } }
+@keyframes fxPop { from { opacity: 0; transform: scale(.5) translateY(30px); } to { opacity: 1; transform: none; } }
+@keyframes fxFade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .fx-rays, .fx-cup, .fx-conf i, .fx-rib::after { animation: none; } }
