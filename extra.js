@@ -107,7 +107,7 @@ async function openToday(clubId) {
   const el = document.createElement("div");
   el.className = "tsheet td-sheet"; el.dataset.testid = "today-sheet";
   el.innerHTML = `<div class="tsheet-bg" data-close></div><div class="tsheet-box" role="dialog" aria-label="Azi în club">
-    <div class="td-head"><div class="grow"><h3>📊 Azi în club</h3><small>${esc(dayName())}</small></div><button type="button" class="td-x" data-close aria-label="Închide">×</button></div>
+    <div class="td-head"><div class="grow"><h3><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#chart"></use></svg> Azi în club</h3><small>${esc(dayName())}</small></div><button type="button" class="td-x" data-close aria-label="Închide">×</button></div>
     <div class="td-body"><div class="skel">${skRow()}${skRow()}${skRow()}</div></div></div>`;
   document.body.appendChild(el);
   const close = () => { el.classList.add("out"); setTimeout(() => el.remove(), 180); window.removeEventListener("hashchange", close); };
@@ -166,7 +166,7 @@ async function openTableAdmin(tableId) {
   const el = document.createElement("div");
   el.className = "tsheet td-sheet km-sheet"; el.dataset.testid = "table-admin-sheet";
   el.innerHTML = `<div class="tsheet-bg" data-close></div><div class="tsheet-box" role="dialog" aria-label="Administrează masa">
-    <div class="td-head"><div class="grow"><h3>🛡️ Administrează masa</h3><small>Doar pentru proprietarul și adminii clubului</small></div><button type="button" class="td-x" data-close aria-label="Închide">×</button></div>
+    <div class="td-head"><div class="grow"><h3><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#shield"></use></svg> Administrează masa</h3><small>Doar pentru proprietarul și adminii clubului</small></div><button type="button" class="td-x" data-close aria-label="Închide">×</button></div>
     <div class="td-body"><div class="skel">${skRow()}${skRow()}</div></div></div>`;
   document.body.appendChild(el);
   const close = () => { el.classList.add("out"); setTimeout(() => el.remove(), 180); window.removeEventListener("hashchange", close); };

@@ -65,8 +65,8 @@ function openInbox() {
   sheet = document.createElement("div");
   sheet.className = "tsheet td-sheet dm-sheet"; sheet.dataset.testid = "dm-inbox";
   sheet.innerHTML = `<div class="tsheet-bg" data-close></div><div class="tsheet-box" role="dialog" aria-label="Mesaje private">
-    <div class="td-head"><div class="grow"><h3>✉️ Mesaje private</h3><small>Doar tu și celălalt jucător vedeți conversația</small></div><button type="button" class="td-x" data-close aria-label="Închide">×</button></div>
-    <div class="dm-tabs"><button type="button" class="on" data-tab="inbox">Conversații</button><button type="button" data-tab="new" data-testid="dm-new">＋ Mesaj nou</button></div>
+    <div class="td-head"><div class="grow"><h3><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#chat"></use></svg> Mesaje private</h3><small>Doar tu și celălalt jucător vedeți conversația</small></div><button type="button" class="td-x" data-close aria-label="Închide">×</button></div>
+    <div class="dm-tabs"><button type="button" class="on" data-tab="inbox">Conversații</button><button type="button" data-tab="new" data-testid="dm-new"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#plus"></use></svg> Mesaj nou</button></div>
     <div class="td-body dm-body"><div class="skel"><div class="sk-row"></div><div class="sk-row"></div></div></div></div>`;
   document.body.appendChild(sheet);
   sheet.addEventListener("click", (e) => {
@@ -97,7 +97,7 @@ async function paintInbox() {
   el.innerHTML = items.length ? `<div class="dm-list">${items.map((x) => `<button type="button" class="dm-row ${x.unread ? "new" : ""}" data-conv="${x.userId}" data-name="${esc(x.name)}" data-testid="dm-conv">
       ${av(x)}<span class="grow"><b>${esc(x.name)}</b><small>${x.mine ? "Tu: " : ""}${esc(x.preview ?? "")}</small></span>
       <span class="dm-meta"><small>${when(x.at)}</small>${x.unread ? `<b class="unread">${x.unread > 9 ? "9+" : x.unread}</b>` : ""}</span></button>`).join("")}</div>`
-    : `<div class="dm-empty">Nicio conversație încă.<br><button type="button" class="btn primary" data-tab="new">＋ Scrie cuiva</button></div>`;
+    : `<div class="dm-empty">Nicio conversație încă.<br><button type="button" class="btn primary" data-tab="new"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#plus"></use></svg> Scrie cuiva</button></div>`;
 }
 async function paintPeople() {
   const el = body(); if (!el) return;

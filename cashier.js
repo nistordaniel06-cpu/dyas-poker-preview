@@ -69,7 +69,7 @@ function paintMember() {
     L.innerHTML = `<div class="screen cx-screen">${top("Casierie")}
       <div class="cx-empty"><b>♠</b><h3>Ai nevoie de un club</h3>
       <p>Monedele DYAS aparțin mereu unui club: le cumperi într-un club și le folosești la mesele și turneele lui. Intră într-un club cu codul primit de la prieteni sau de la administrator.</p>
-      <a class="btn primary" href="#/join">🔑 Intră într-un club</a></div></div>`;
+      <a class="btn primary" href="#/join"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#key"></use></svg> Intră într-un club</a></div></div>`;
     return;
   }
   if (M.detail) return paintMemberDetail();
@@ -95,7 +95,7 @@ function buyHtml() {
   const d = M.data;
   if (d.mode !== "live" || !d.pay) return `<div class="cx-empty sm"><b>💶</b><h3>Casieria nu este deschisă încă</h3>
     <p>Administratorul aplicației nu a completat încă datele contului în care se plătește.${DY().me?.isAdmin ? "" : " Revino puțin mai târziu."}</p>
-    ${DY().me?.isAdmin ? `<a class="btn primary" href="#/admin/casierie">⚙️ Completează datele de plată</a>` : ""}</div>`;
+    ${DY().me?.isAdmin ? `<a class="btn primary" href="#/admin/casierie"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#settings"></use></svg> Completează datele de plată</a>` : ""}</div>`;
   if (!d.pay.link) M.method = "bank";
   const p = d.packages.find((x) => x.eur === M.pkg) ?? d.packages[Math.min(1, d.packages.length - 1)];
   return `<h3 class="cx-h">Alege pachetul</h3>
@@ -293,7 +293,7 @@ function paintAdmin() {
   const n = { verify: d.counts.verify, approve: d.counts.approve, pay: d.counts.pay, history: d.counts.history };
   const work = A.view !== "history";
   L.innerHTML = `<div class="screen cx-screen wide" data-testid="admin-cashier">
-    <div class="topbar cx-top"><a class="back" href="#/admin" aria-label="Înapoi la Admin">←</a><h1>Admin · Casierie</h1><button type="button" class="btn sm cx-set" data-settings data-testid="cx-settings">⚙️ Setări</button></div>
+    <div class="topbar cx-top"><a class="back" href="#/admin" aria-label="Înapoi la Admin">←</a><h1>Admin · Casierie</h1><button type="button" class="btn sm cx-set" data-settings data-testid="cx-settings"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#settings"></use></svg> Setări</button></div>
     <p class="sub cx-sub">Încasări și retrageri cu verificare manuală</p>
     ${d.mode !== "live" ? `<div class="cx-note warn">⚠️ <span><b>Casieria e închisă.</b> Membrii nu pot cumpăra până nu completezi titularul contului și IBAN-ul.</span><button type="button" class="btn sm" data-settings>Completează</button></div>` : ""}
     <div class="cx-tiles">${VIEWS.map(([k, t, ic]) => `<button type="button" class="cx-tile ${A.view === k ? "on" : ""}" data-view="${k}" data-testid="cx-view-${k}"><span class="ic">${ic}</span><span class="t">${t}</span>${k !== "history" ? `<b class="${n[k] ? "" : "zero"}">${n[k]}</b>` : `<b class="zero">${n.history}</b>`}</button>`).join("")}</div>
@@ -379,7 +379,7 @@ function paintAdminDetail() {
     <label data-reason-wrap hidden>Motivul diferenței (apare în istoric)<input data-reason placeholder="ex. A virat 10 € în loc de 20 €" data-testid="cx-reason"></label>
     <div class="cx-cmp"><div><small>Suma așteptată</small><b>${eur2(r.amountCents)}</b></div><div><small>Suma încasată</small><b data-recv-show>${eur2(r.amountCents)}</b></div><div class="gold"><small>Coins de alocat</small><b data-coins-show>${num(r.coins)}</b></div></div>
     <button type="button" class="btn primary cx-go" data-approve data-testid="cx-approve">Confirmă ${eur(r.amountCents)} și alocă ${num(r.coins)} coins</button>
-    ${r.status !== "clarify" ? `<button type="button" class="btn ghost cx-go" data-clarify>💬 Necesită clarificare</button>` : ""}
+    ${r.status !== "clarify" ? `<button type="button" class="btn ghost cx-go" data-clarify><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#chat"></use></svg> Necesită clarificare</button>` : ""}
     <button type="button" class="btn ghost cx-go danger" data-reject>✕ Respinge</button></div>`;
   else if (r.kind === "withdraw" && r.status === "pending") act = `<div class="cx-card act"><h3 class="cx-h">Aprobă retragerea</h3>
     <div class="cx-note">ℹ️ <span>Prin aprobare se consumă rezerva: <b>${num(r.coins)} coins</b> ies definitiv din contul membrului. Apoi faci transferul de <b>${eur2(r.amountCents - r.feeCents)}</b>.</span></div>
@@ -391,8 +391,8 @@ function paintAdminDetail() {
     <div class="cx-kv"><span>IBAN</span><b class="mono">${esc(r.iban.replace(/(.{4})/g, "$1 ").trim())}</b><button type="button" class="cx-copy" data-copy-iban>Copiază</button></div>
     <label>Referința plății făcute<input data-pref placeholder="ex. DYAS-PLATA-105" data-testid="cx-pref"></label>
     <button type="button" class="btn primary cx-go" data-paid data-testid="cx-paid">➤ Confirmă plata de ${eur(r.amountCents - r.feeCents)}</button>
-    ${r.status === "payable" ? `<button type="button" class="btn ghost cx-go" data-reconcile>⚠️ Necesită reconciliere</button>`
-      : `<button type="button" class="btn ghost cx-go" data-retry>↻ Reia plata</button><button type="button" class="btn ghost cx-go danger" data-refund>↩ Restituie ${num(r.coins)} coins (plata a eșuat)</button>`}</div>`;
+    ${r.status === "payable" ? `<button type="button" class="btn ghost cx-go" data-reconcile><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#warn"></use></svg> Necesită reconciliere</button>`
+      : `<button type="button" class="btn ghost cx-go" data-retry>↻ Reia plata</button><button type="button" class="btn ghost cx-go danger" data-refund><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#reload"></use></svg> Restituie ${num(r.coins)} coins (plata a eșuat)</button>`}</div>`;
   L.innerHTML = `<div class="screen cx-screen" data-testid="cx-adetail">
     <div class="topbar cx-top"><button type="button" class="back" data-back aria-label="Înapoi">←</button><h1>${buyOpen ? "Verifică încasarea" : r.kind === "buy" ? "Cumpărare" : r.status === "pending" ? "Aprobă retragerea" : r.status === "payable" ? "Confirmă plata" : "Retragere"}</h1></div>
     <div class="cx-hero">${kindIc(r.kind)}<span class="grow"><small>${esc(r.ref)} · ♠ ${esc(r.club)}</small><b>${esc(r.user)}</b><em>${r.kind === "buy" ? "Cumpărare" : "Retragere"} · ${eur2(r.amountCents)} · ${num(r.coins)} coins</em></span>${badge(r)}</div>

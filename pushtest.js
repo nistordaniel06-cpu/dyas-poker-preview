@@ -26,7 +26,7 @@ function inject() {
   const box = document.createElement("div");
   box.className = "push-test";
   box.style.cssText = "margin-top:10px;display:flex;flex-direction:column;gap:6px";
-  box.innerHTML = `<button type="button" class="btn sm" data-push-test data-testid="push-test">🔔 Trimite-mi o notificare de test</button><small class="muted" data-push-res></small>`;
+  box.innerHTML = `<button type="button" class="btn sm" data-push-test data-testid="push-test"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#bell"></use></svg> Trimite-mi o notificare de test</button><small class="muted" data-push-res></small>`;
   card.appendChild(box);
   const btn = box.querySelector("button"), res = box.querySelector("[data-push-res]");
   btn.onclick = async () => {

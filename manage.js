@@ -59,7 +59,7 @@ async function clubCard(card) {
   const box = document.createElement("details");
   box.className = "mg";
   box.dataset.testid = "club-manage";
-  box.innerHTML = `<summary>✏️ Editează clubul, mesele și turneele</summary><div class="mg-body"><div class="skel"><div class="sk-row"><i class="sk sk-av"></i><span class="sk-tx"><i class="sk sk-l"></i></span></div></div></div>`;
+  box.innerHTML = `<summary><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#edit"></use></svg> Editează clubul, mesele și turneele</summary><div class="mg-body"><div class="skel"><div class="sk-row"><i class="sk sk-av"></i><span class="sk-tx"><i class="sk sk-l"></i></span></div></div></div>`;
   card.querySelector(".danger-zone")?.before(box);
   let loaded = false;
   box.addEventListener("toggle", () => { if (box.open && !loaded) { loaded = true; paint(); } });

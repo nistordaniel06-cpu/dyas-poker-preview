@@ -286,7 +286,7 @@ async function renderHome() {
         <div class="grow"><div class="t">${esc(c.name)}</div>
           <div class="small muted" style="margin-top:3px">${plural(c.members, "membru", "membri")} · ${plural(c.tables, "masă", "mese")}</div></div>
         <div class="chips">${fmt(c.balance)}</div></a>`).join("")}
-    <div class="row hs-actions">${me.isAdmin ? `<a class="btn grow" href="#/create">👑 Creează un club</a>` : ""}<a class="btn grow" href="#/join">🔑 Intră cu un cod</a></div>`
+    <div class="row hs-actions">${me.isAdmin ? `<a class="btn grow" href="#/create"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#crown"></use></svg> Creează un club</a>` : ""}<a class="btn grow" href="#/join"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#key"></use></svg> Intră cu un cod</a></div>`
   : `<div class="actions">
       ${me.isAdmin ? `<a class="tile gold" href="#/create"><span class="ic">👑</span><span><b>Creează un club</b><small>Devii proprietar</small></span></a>` : ""}
       <a class="tile ${me.isAdmin ? "" : "gold"}" href="#/join"><span class="ic">🔑</span><span><b>Intră într-un club</b><small>Cu codul primit</small></span></a>
@@ -354,7 +354,7 @@ async function renderActivity() {
   const hands = lists.flat().sort((a, b) => new Date(b.at) - new Date(a.at)).slice(0, 40);
   $app.innerHTML = `<div class="screen">
     <div class="topbar"><h1 style="margin:0">📜 Activitate</h1></div>
-    <h2>🏆 Realizări</h2>
+    <h2><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#trophy"></use></svg> Realizări</h2>
     <div id="ach"><div class="empty">Se încarcă…</div></div>
     <h2>Ultimele mâini</h2>
     <div data-testid="activity-hands">${hands.length ? hands.map(handCard).join("") : `<div class="empty"><b>🃏</b>Încă nu ai jucat nicio mână.</div>`}</div>
@@ -455,10 +455,10 @@ async function renderClub() {
       <div class="code" data-testid="club-code">${esc(d.club.code)}</div>
       <div class="btns">
         <a class="btn wa" href="${wa}" target="_blank" rel="noopener">${WA_ICON}Trimite pe WhatsApp</a>
-        <button class="btn" id="cp" aria-label="Copiază linkul">🔗 Copiază</button></div>
+        <button class="btn" id="cp" aria-label="Copiază linkul"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#copy"></use></svg> Copiază</button></div>
     </div>
     <div id="jpc">${jackpotHtml(C.jackpot ?? 0, "big")}</div>
-    <button type="button" class="btn block club-chat" id="cchat" data-testid="club-chat-btn">💬 Chatul clubului<b class="unread" data-testid="chat-badge" hidden></b></button>
+    <button type="button" class="btn block club-chat" id="cchat" data-testid="club-chat-btn"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#chat"></use></svg> Chatul clubului<b class="unread" data-testid="chat-badge" hidden></b></button>
     <div id="onl"></div>
     <div class="tabs">
       ${[["tables", "Mese"], ["tourneys", "🏆 Turnee"], ["top", "Clasament"], ["history", "Istoric"], ...(mgr ? [["members", "Membri"]] : [])]
@@ -510,7 +510,7 @@ function paintTables() {
   const d = C.data, mgr = isMgr(d.me.role);
   const el = document.getElementById("tab");
   if (!el) return;
-  el.innerHTML = `${mgr ? `<button class="btn primary block" id="nt" style="margin-bottom:12px">＋ Masă nouă</button><div id="ntf"></div>` : ""}
+  el.innerHTML = `${mgr ? `<button class="btn primary block" id="nt" style="margin-bottom:12px"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#plus"></use></svg> Masă nouă</button><div id="ntf"></div>` : ""}
     ${d.tables.length ? d.tables.map((t) => `<div class="list-item" data-t="${t.id}" data-testid="table-row">
         <div class="table-ic">♠</div>
         <div class="grow"><div class="t wrap" data-testid="table-line">${tableLine(t)}</div>
@@ -630,7 +630,7 @@ function chipAdjustHtml() {
     <div class="small muted" style="margin-bottom:6px">Jetoane (doar administratorul)</div>
     <div class="seg">${[1000, 5000, 10000, 50000].map((a) => `<button type="button" data-q="${a}">+${fmt(a)}</button>`).join("")}</div>
     <div class="row" style="margin-top:8px"><input name="amount" type="number" inputmode="numeric" min="1" placeholder="Sumă" class="grow" aria-label="Suma">
-      <button type="button" class="btn sm danger" data-take>− Retrage</button><button class="btn sm green" data-give>＋ Dă</button></div>
+      <button type="button" class="btn sm danger" data-take>− Retrage</button><button class="btn sm green" data-give><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#plus"></use></svg> Dă</button></div>
     <input name="note" maxlength="140" placeholder="Motiv (opțional)" style="margin-top:8px" aria-label="Motiv"></form>`;
 }
 function bindChipAdjust(host, clubId, userId, name, done) {
@@ -786,6 +786,7 @@ function applyState(st) {
   notePause(T.state, st);
   noteAchievements(st);
   trackAnims(T.state, st);
+  window.dispatchEvent(new CustomEvent("arena-table-state", {detail:st}));
   T.state = st; T.skew = Date.now() - st.serverTime;
   renderTable();
   autoPre(st);
@@ -870,7 +871,7 @@ function trackAnims(prev, st) {
   if (h && !h.done && !same) { A.deal = now; A.board = {}; A.bets = {}; A.win = null; T.pre = null; }
   if (h) {
     const from = same && ph ? ph.board.length : h.done ? h.board.length : 0;
-    for (let i = from; i < h.board.length; i++) A.board[i] = now + (i - from) * 140;
+    for (let i = from; i < h.board.length; i++) A.board[i] = now + 220 + (i - from) * 170;
     for (const p of h.players) {
       const old = same && ph ? ph.players.find((x) => x.seat === p.seat)?.bet ?? 0 : 0;
       if (p.bet > 0 && p.bet !== old) A.bets[p.seat] = now;
@@ -941,7 +942,7 @@ function renderTable() {
     const up = !isMe && p && p.cards[0];
     const order = h ? h.players.findIndex((q) => q.seat === seat) : 0;
     seatsHtml += `<div class="seat ${occ.frame ? "fr-" + occ.frame : ""} ${isMe ? "mine" : ""} ${turn ? "turn" : ""} ${p?.folded ? "folded" : ""} ${winners.has(seat) ? "win" : ""}" style="${lx(x)};top:${y}%" data-testid="seat-${seat}">
-      <div class="hole ${up ? "up" : ""}" style="${up ? "--oc:" + (roomy ? 34 : 26) + "px" : ""}">${!isMe && p && p.cards.length && !p.folded ? p.cards.map((c, ci) => { const a = animAt(T.anim.deal, 420, (order + ci * h.players.length) * 70); return cardHtml(c, a ? "deal" : "", a ?? ""); }).join("") : ""}</div>
+      <div class="hole ${up ? "up" : ""}" style="${up ? "--oc:" + (roomy ? 34 : 26) + "px" : ""}">${!isMe && p && p.cards.length && !p.folded ? p.cards.map((c, ci) => { const a = animAt(T.anim.deal, 480, (order + ci * h.players.length) * 95); return cardHtml(c, a ? "deal" : "", a ?? ""); }).join("") : ""}</div>
       <div class="box">${tag ? `<span class="tag ${tag}">${esc(ACTION_LABEL[tag] || tag)}</span>` : ""}${h && h.dealer === seat ? `<span class="dbtn in ${x <= 50 ? "r" : "l"}" data-testid="dealer-btn" data-seat="${seat}">D</span>` : ""}
         ${occ.avatar ? `<span class="sav">${esc(occ.avatar)}</span>` : ""}<div class="nm">${esc(occ.name)}</div><div class="st">${fmt(p ? p.stack : occ.stack)}</div>
         ${turn && deadline ? `<div class="tbar2"><i data-deadline="${deadline}"></i></div>` : ""}</div></div>`;
@@ -961,7 +962,7 @@ function renderTable() {
   }
 
   const board = h ? h.board : [];
-  const boardHtml = Array.from({ length: 5 }, (_, i) => { const a = board[i] ? animAt(T.anim.board[i], 520) : null; return cardHtml(board[i] || undefined, a ? "flip" : "", a ?? ""); }).join("");
+  const boardHtml = Array.from({ length: 5 }, (_, i) => { const a = board[i] ? animAt(T.anim.board[i], 560) : null; return cardHtml(board[i] || undefined, a ? "flip" : "", a ?? ""); }).join("");
   // jetoanele potului zboară spre câștigători
   if (h?.done && s.lastResult && winners.size) {
     for (const w of winners) {
@@ -997,7 +998,7 @@ function renderTable() {
     <div class="tbar"><a class="back" href="${s.tourney ? `#/tourney/${s.tourney.id}` : `#/club/${s.table.clubId}`}" aria-label="Înapoi">←</a><img src="/logo.svg" alt="">
       <div class="ti">${esc(s.table.name)} <small>· ${fmt(s.table.sb)}/${fmt(s.table.bb)} · ${occupied}/${cap}${s.handNo ? ` · mâna #${s.handNo}` : ""}</small></div>
 </div>
-    ${s.tourney ? `<a class="tinfo" href="#/tourney/${s.tourney.id}" data-testid="tourney-strip">🏆 Nivel ${s.tourney.level} · ${fmt(s.table.sb)}/${fmt(s.table.bb)}${s.tourney.nextAt ? ` <span>· următorul în <b data-countdown="${s.tourney.nextAt}">${mmss(s.tourney.nextAt - (Date.now() - T.skew))}</b></span>` : ""}${s.tme ? ` <span>· ${s.tme.alive} rămași</span>` : ""}</a>` : ""}
+    ${s.tourney ? `<a class="tinfo" href="#/tourney/${s.tourney.id}" data-testid="tourney-strip"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#trophy"></use></svg> Nivel ${s.tourney.level} · ${fmt(s.table.sb)}/${fmt(s.table.bb)}${s.tourney.nextAt ? ` <span>· următorul în <b data-countdown="${s.tourney.nextAt}">${mmss(s.tourney.nextAt - (Date.now() - T.skew))}</b></span>` : ""}${s.tme ? ` <span>· ${s.tme.alive} rămași</span>` : ""}</a>` : ""}
     <div class="felt-wrap" id="fw">
       ${s.tourney ? "" : `<span class="tjp" data-testid="table-jackpot" title="Jackpotul clubului"><b>${fmt(s.table.jackpot)}</b></span>`}
       ${T.tray && s.mySeat != null ? `<div class="tray" data-testid="react-tray">${reactions.map((e) => `<button data-rx="${esc(e)}">${esc(e)}</button>`).join("")}</div>` : ""}
@@ -1035,7 +1036,7 @@ function renderPanel(s, h, mine, deadline) {
     const full = s.seats.length >= s.table.capacity;
     return `<div class="me" data-testid="panel"><div class="info"><div class="who"><div class="nm">Privești masa</div>
       <div class="small muted">Intrare ${buyInText(s.table)} jetoane din soldul clubului</div></div></div>
-      <div class="status">${s.canSit === false ? `<button class="btn block" disabled>🛡️ Privești ca administrator</button>` : full ? `<button class="btn block" disabled>Masă plină</button>` : `<button class="btn primary block" data-act="sit">Așază-te · ${buyInText(s.table)}</button>`}</div></div>`;
+      <div class="status">${s.canSit === false ? `<button class="btn block" disabled><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#shield"></use></svg> Privești ca administrator</button>` : full ? `<button class="btn block" disabled>Masă plină</button>` : `<button class="btn primary block" data-act="sit">Așază-te · ${buyInText(s.table)}</button>`}</div></div>`;
   }
   const live = h && !h.done;
   const myTurn = live && mine && h.turn === s.mySeat && h.legal;
@@ -1044,7 +1045,7 @@ function renderPanel(s, h, mine, deadline) {
   const cards = mine && mine.cards.length ? mine.cards : [];
   const toCall = live && mine ? Math.min(h.currentBet - mine.bet, mine.stack) : 0;
   const info = `<div class="info">
-    <div class="mycards" data-testid="my-cards">${cards.length ? cards.map((c, i) => { const a = animAt(T.anim.deal, 420, (h.players.findIndex((q) => q.seat === s.mySeat) + i * h.players.length) * 70); return cardHtml(c, (mine.folded ? "dim " : "") + (a ? "deal" : ""), a ?? ""); }).join("") : cardHtml(undefined) + cardHtml(undefined)}</div>
+    <div class="mycards" data-testid="my-cards">${cards.length ? cards.map((c, i) => { const a = animAt(T.anim.deal, 480, (h.players.findIndex((q) => q.seat === s.mySeat) + i * h.players.length) * 95); return cardHtml(c, (mine.folded ? "dim " : "") + (a ? "deal" : ""), a ?? ""); }).join("") : cardHtml(undefined) + cardHtml(undefined)}</div>
     <div class="who"><div class="nm">${esc(seat.name)}${h && h.dealer === s.mySeat ? " · D" : ""}</div><div class="st">${fmt(mine ? mine.stack : seat.stack)}${seat.topup ? ` <small class="tp" data-testid="topup-pending">+${fmt(seat.topup)}</small>` : ""}${s.tourney || seat.leaving || seat.stack + (seat.topup || 0) >= s.table.buyIn ? "" : ` <button class="addchips" data-act="topup" aria-label="Completează jetoanele" data-testid="topup-btn">＋</button>`}</div></div>
     <div class="tocall" data-testid="to-call"><small>${live && mine && !mine.folded ? "De plătit" : "Pot"}</small><b>${live && mine && !mine.folded ? fmt(toCall) : fmt(h ? h.pot : 0)}</b></div></div>`;
   let body = "";
@@ -1069,7 +1070,7 @@ function renderPanel(s, h, mine, deadline) {
         <button class="btn raise" data-act="raise-open" data-testid="raise-btn" ${L.canRaise ? "" : "disabled"}>${h.currentBet === 0 ? "Bet" : "Raise"}</button></div>`;
     }
     if (deadline) body += `<div class="turnbar"><i data-deadline="${deadline}"></i></div>`;
-    if (seat.timeBank > 0 && !T.raiseOpen) body += `<div class="xtra"><button type="button" class="linkbtn" data-act="extend" data-testid="extend-btn">⏱ Încă 30 s · ${seat.timeBank} ${seat.timeBank === 1 ? "rămasă" : "rămase"}</button></div>`;
+    if (seat.timeBank > 0 && !T.raiseOpen) body += `<div class="xtra"><button type="button" class="linkbtn" data-act="extend" data-testid="extend-btn"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#clock"></use></svg> Încă 30 s · ${seat.timeBank} ${seat.timeBank === 1 ? "rămasă" : "rămase"}</button></div>`;
   } else if (s.tourney) {
     body = live && mine && !mine.folded && !mine.allIn ? preActs() : `<div class="note">${live ? (mine?.allIn ? "Ești all-in." : "Aștepți mâna următoare.") : "Mâna următoare pornește automat."}</div>`;
     body += tourneyActs(s);
@@ -1086,7 +1087,7 @@ function renderPanel(s, h, mine, deadline) {
     body = `<div class="status">
       ${seat.leaving ? `<button class="btn block" disabled>Te ridici după mâna asta</button>` :
         `<button class="btn" data-act="leave">Ridică-te</button>
-         ${seat.ready ? `<button class="btn" data-act="unready" data-testid="sitout-btn">☕ Lipsesc</button>` : `<button class="btn green" data-act="ready" ${seat.stack + (seat.topup || 0) > 0 ? "" : "disabled"}>Sunt gata</button>`}`}</div>
+         ${seat.ready ? `<button class="btn" data-act="unready" data-testid="sitout-btn"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#coffee"></use></svg> Lipsesc</button>` : `<button class="btn green" data-act="ready" ${seat.stack + (seat.topup || 0) > 0 ? "" : "disabled"}>Sunt gata</button>`}`}</div>
       ${waitingNote || seat.ready || s.handNo ? `<div class="note">${waitingNote || (seat.ready ? "Ești gata. Jocul pornește automat." : "☕ Ești pe pauză: rămâi la masă, dar nu primești cărți.")}</div>` : ""}`;
   }
   return `<div class="me" data-testid="panel">${info}${body}</div>`;
@@ -1100,16 +1101,16 @@ function preActs() {
 function tourneyActs(s) {
   const a = s.tme?.actions || {};
   const b = [
-    a.rebuy != null ? `<button class="btn" data-act="t-rebuy" data-testid="t-rebuy">🔁 Rebuy${a.rebuy ? ` · ${fmt(a.rebuy)}` : ""}</button>` : "",
-    a.addon != null ? `<button class="btn" data-act="t-addon" data-testid="t-addon">➕ Add-on${a.addon ? ` · ${fmt(a.addon)}` : ""}</button>` : "",
-    a.reentry != null ? `<button class="btn" data-act="t-reentry" data-testid="t-reentry">↩️ Re-entry${a.reentry ? ` · ${fmt(a.reentry)}` : ""}</button>` : "",
-    `<a class="btn" href="#/tourney/${s.tourney.id}">🏆 Lobby</a>`,
+    a.rebuy != null ? `<button class="btn" data-act="t-rebuy" data-testid="t-rebuy"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#reload"></use></svg> Rebuy${a.rebuy ? ` · ${fmt(a.rebuy)}` : ""}</button>` : "",
+    a.addon != null ? `<button class="btn" data-act="t-addon" data-testid="t-addon"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#plus"></use></svg> Add-on${a.addon ? ` · ${fmt(a.addon)}` : ""}</button>` : "",
+    a.reentry != null ? `<button class="btn" data-act="t-reentry" data-testid="t-reentry"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#reload"></use></svg> Re-entry${a.reentry ? ` · ${fmt(a.reentry)}` : ""}</button>` : "",
+    `<a class="btn" href="#/tourney/${s.tourney.id}"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#trophy"></use></svg> Lobby</a>`,
   ].join("");
   return `<div class="tacts">${b}</div>`;
 }
 function sitOutToggle(seat) {
   return seat.ready
-    ? `<button class="linkbtn" data-act="unready" data-testid="sitout-btn">☕ Lipsesc de la mâna următoare</button>`
+    ? `<button class="linkbtn" data-act="unready" data-testid="sitout-btn"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#coffee"></use></svg> Lipsesc de la mâna următoare</button>`
     : `<div class="note small">☕ Stai pe pauză de la mâna următoare. <button class="linkbtn" data-act="ready">Revin</button></div>`;
 }
 function clampRaise(v, L) { return Math.max(L.minTo, Math.min(L.maxTo, Math.round(v))); }
@@ -1286,7 +1287,7 @@ async function renderProfile() {
   $app.innerHTML = `<div class="screen">
     <div class="topbar"><a class="back" href="#/" aria-label="Înapoi">←</a><h1 style="margin:0">Profilul tău</h1></div>
     <div class="card profile-head">${avatarHtml(me, "xl")}<div><div class="name">${esc(me.username)}</div>${me.isAdmin ? `<span class="badge superadmin">Administrator</span>` : ""}</div></div>
-    <h2>📱 Număr de telefon</h2>
+    <h2><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#phone"></use></svg> Număr de telefon</h2>
     <div class="card phone-card" id="phc" data-testid="profile-phone">${ph.phone
       ? `<div class="row"><div class="grow"><b class="ph-num">${esc(ph.phone)}</b><div class="small muted">Numărul nu apare public în club.</div></div><button type="button" class="btn sm" id="phe">Schimbă</button></div>`
       : `<div class="small muted" style="margin-bottom:10px">Nu ai trecut încă numărul. Adaugă-l ca să te putem anunța când se joacă. Numărul nu apare public în club.</div>${phoneForm()}`}</div>
@@ -1297,7 +1298,7 @@ async function renderProfile() {
     <div class="frames" id="frames" data-testid="frames"></div>
     <h2>🎨 Tema mesei</h2>
     <div class="themes" data-testid="themes">${[["green", "Verde"], ["blue", "Albastru"], ["red", "Burgundy"]].map(([k, n]) => `<button type="button" data-theme-pick="${k}" class="th-${k} ${(localStorage.getItem("dyas.theme") || "green") === k ? "on" : ""}" aria-pressed="${(localStorage.getItem("dyas.theme") || "green") === k}"><span class="tmini" data-theme="${k}" aria-hidden="true"><span class="felt">${FELT}</span></span>${n}</button>`).join("")}</div>
-    <h2>🏆 Realizări</h2>
+    <h2><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#trophy"></use></svg> Realizări</h2>
     <div id="ach"><div class="empty">Se încarcă…</div></div>
     <h2>Setări</h2>
     <div class="card settings">

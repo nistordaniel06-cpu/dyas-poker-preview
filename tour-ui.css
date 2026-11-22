@@ -190,3 +190,30 @@ html body .tb-btn .unread {background:#bf203d;color:white}
 #app .online .on-p .grow {min-width:0;overflow-wrap:anywhere}
 #app .online .on-p .grow b,#app .online .on-p .grow small {display:block;line-height:1.3}
 @media(max-width:370px){#app .online .on-p {grid-template-columns:36px minmax(0,1fr) auto}#app .online .on-p [data-invite] {grid-column:2/-1;justify-self:start}}
+
+/* Paired surface and text colors also cover the primary tile on the club screen. */
+#app .screen .tile,#app .screen .tile.gold {background:#23242b;color:#fff4df;border:1px solid #50434a}
+#app .screen .tile b {color:#fff5e4;font-weight:750}
+#app .screen .tile small {color:#d0c8cc;opacity:1;line-height:1.4}
+#app .screen .tile > span {position:relative;z-index:1}
+#app .screen .tile::after {pointer-events:none;opacity:.045}
+#app .tile .ic {height:40px;width:40px;display:grid;place-items:center;line-height:1;background:#362a31;color:#f4ce98}
+#app .screen .tile[href="#/admin/users"] .ic,#app .screen .tile[href="#/admin/live"] .ic {font-size:0}
+#app .screen .tile[href="#/admin/users"] .ic::before,#app .screen .tile[href="#/admin/live"] .ic::before {content:"";width:23px;height:23px;background:currentColor;mask:var(--tile-icon) center/contain no-repeat}
+.tile[href="#/admin/users"] {--tile-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7'%3E%3Cellipse cx='10' cy='6' rx='7' ry='3'/%3E%3Cpath d='M3 6v4c0 4 14 4 14 0V6M3 10v4c0 3 7 4 10 3m3-3v8m-4-4h8'/%3E%3C/svg%3E")}
+.tile[href="#/admin/live"] {--tile-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7'%3E%3Crect x='2' y='4' width='20' height='14' rx='3'/%3E%3Cpath d='M8 21h8m-4-3v3'/%3E%3C/svg%3E")}
+#app .screen .btn:not(.tb-btn),.cx .cx-go {line-height:1.25;white-space:normal;overflow-wrap:anywhere;text-align:center}
+#app .table-screen .seat .tag {background:#33252d;color:#f9e7cd}
+#app .table-screen .seat.win .box {box-shadow:0 0 0 1px #ebce92,0 0 14px #d9a64470}
+.arena-gesture {position:absolute;pointer-events:none;border:2px solid #f7d491}
+.gesture-check {border-radius:50%;width:20px;height:10px;animation:arena-tap .75s ease-out both}
+.gesture-fold,.gesture-show {width:18px;height:25px;border-radius:4px;background:repeating-linear-gradient(45deg,#412a34 0 3px,#66424a 3px 4px);box-shadow:4px 1px #aa8559;animation:arena-muck .68s ease-in both}
+.gesture-show {background:#fff4dd;animation:arena-show .65s ease-out both}
+@keyframes arena-tap {from{opacity:1;transform:translate(-50%,-50%) scale(.45)}to{opacity:0;transform:translate(-50%,-50%) scale(2)}}
+@keyframes arena-muck {from{opacity:1;transform:translate(-50%,-60%) rotate(-9deg)}to{opacity:0;transform:translate(-15%,-180%) rotate(14deg) scale(.7)}}
+@keyframes arena-show {from{opacity:.9;transform:translate(-50%,-75%) rotateY(75deg)}to{opacity:0;transform:translate(-50%,-145%) rotateY(0)}}
+@media(prefers-reduced-motion:no-preference){#app .pcard.deal{animation-duration:.48s}#app .pcard.flip{animation-duration:.56s}}
+.arena-dealt-back {position:absolute;width:15px;height:21px;border:1px solid #e1be83;border-radius:3px;background:repeating-linear-gradient(45deg,#4e2332 0 3px,#713747 3px 4px);box-shadow:0 2px 5px #0008;pointer-events:none}
+.arena-control-icon {display:inline-block;width:1.08em;height:1.08em;vertical-align:-.16em;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+@keyframes arena-public-card {0%{opacity:.15;transform:perspective(420px) rotateY(82deg)}65%{opacity:1;transform:none;box-shadow:0 0 0 1px #dfb875,0 0 9px #e9ba6266}100%{transform:none}}
+@media(prefers-reduced-motion:no-preference){#app .board .pcard.flip{animation-name:arena-public-card}}

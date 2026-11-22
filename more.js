@@ -139,7 +139,7 @@ export async function achievementsInto(el) {
 // ---------- masă privată: parola ----------
 export function lockedScreen(app, tableId, clubId, onOk) {
   const { api } = D();
-  app.innerHTML = `<div class="screen"><div class="topbar"><a class="back" href="${clubId ? `#/club/${clubId}` : "#/"}" aria-label="Înapoi">←</a><h1 style="margin:0">🔒 Masă privată</h1></div>
+  app.innerHTML = `<div class="screen"><div class="topbar"><a class="back" href="${clubId ? `#/club/${clubId}` : "#/"}" aria-label="Înapoi">←</a><h1 style="margin:0"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#lock"></use></svg> Masă privată</h1></div>
     <form class="card" id="lk"><p class="small muted" style="margin-top:0">Masa are parolă. Cere-o de la cine a creat-o.</p>
       <label for="lkp">Parola mesei</label><input id="lkp" name="p" type="password" autocomplete="off" required data-testid="table-password">
       <div class="err" id="lke"></div><button class="btn primary block" style="margin-top:10px">Intră la masă</button></form></div>`;

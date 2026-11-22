@@ -88,6 +88,42 @@ function fly(a, b, { n = 3, color = "r", delay = 0, dur = 520, lift = 40, gap = 
   }
   return Promise.all(jobs);
 }
+function distribute(st) {
+  if (reduce || !onTable()) return;
+  const players = st.hand.players;
+  const dealer = players.findIndex(p => p.seat === st.hand.dealer);
+  const origin = potXY();
+  for (let pass = 0; pass < 2; pass++) {
+    for (let step = 0; step < players.length; step++) {
+      const p = players[(dealer + 1 + step) % players.length];
+      const target = seatXY(p.seat, st);
+      if (!target) continue;
+      const card = document.createElement("i");
+      card.className = "arena-dealt-back";
+      card.style.left = origin[0] + "px";
+      card.style.top = origin[1] + "px";
+      layer().append(card);
+      const move = card.animate([
+        {opacity:0, transform:"translate(-50%,-50%) rotate(-8deg)", offset:0},
+        {opacity:1, offset:.15},
+        {opacity:0, transform:"translate("+(target[0]-origin[0])+"px,"+(target[1]-origin[1])+"px) scale(.72)", offset:1}
+      ], {duration:480,delay:(pass*players.length+step)*95,easing:"ease-out",fill:"both"});
+      move.finished.catch(() => {}).then(() => card.remove());
+    }
+  }
+}
+
+function gesture(at, action) {
+  if (!at || reduce) return;
+  const mark = document.createElement("i");
+  mark.className = "arena-gesture gesture-" + action;
+  mark.style.left = at[0] + "px";
+  mark.style.top = (at[1] - 12) + "px";
+  layer().append(mark);
+  mark.addEventListener("animationend", () => mark.remove(), {once:true});
+  setTimeout(() => mark.remove(), 1300);
+}
+
 function floatText(xy, html, cls = "") {
   if (!xy) return;
   const el = document.createElement("div");
@@ -142,6 +178,8 @@ function handBanner(st) {
   const name = (w) => esc(r.names?.[w.seat] ?? st.seats.find((s) => s.seat === w.seat)?.name ?? "?");
   const mine = ws.some((w) => w.seat === st.mySeat);
   const big = ws.reduce((a, w) => a + Number(w.amount), 0) >= st.table.bb * 50;
+  if (!ws.length) return;
+  if (r.pots?.length > 1) return banner({kicker:"Distribuția poturilor",title:"Pot principal și secundare",sub:ws.map(w => name(w) + " +" + fmt(w.amount)).join(" · "),cls:"split"});
   if (ws.length > 1 && new Set(ws.map((w) => w.seat)).size > 1) {
     return banner({ kicker: "Pot împărțit", title: ws.map(name).join(" · "), sub: ws[0].hand ? `Egalitate cu ${esc(ws[0].hand)}` : "Fiecare își ia partea", cls: "split" });
   }
@@ -150,7 +188,7 @@ function handBanner(st) {
   const kicker = mine ? "Ai câștigat!" : big ? "Pot uriaș" : w.hand ? "Showdown" : "Mână câștigată";
   const strong = ["Chintă roială", "Chintă de culoare", "Careu", "Full"].includes(w.hand);
   return banner({
-    kicker: big && !mine ? "💰 Pot uriaș" : kicker,
+    kicker: big && !mine ? "Pot uriaș" : kicker,
     title: t,
     sub: `<em>${name(w)}</em> ia ${fmt(w.amount)}${s ? ` · ${s}` : ""}`,
     cls: `${mine ? "mine" : ""} ${strong ? "strong" : ""} ${big ? "big" : ""}`,
@@ -221,26 +259,33 @@ const alive = (st) => (st.tourney ? (st.tme?.alive ?? null) : st.seats.filter((s
 
 async function play(prev, st) {
   await frames();
-  if (!onTable()) return;
+  if (!onTable() || FX.id !== st.table.id || FX.st?.handNo !== st.handNo) return;
   const h = st.hand, ph = prev.hand;
   const same = ph && h && prev.handNo === st.handNo;
   const bb = st.table.bb || 1;
 
   // mână nouă: blindurile se pun pe masă
   if (h && !h.done && !same) {
-    for (const p of h.players) if (p.bet > 0) fly(seatXY(p.seat, st), betXY(p.seat, st), { n: 2, color: tone(p.bet, bb), dur: 420, lift: 20 });
+    distribute(st);
+    for (const p of h.players) if (p.bet > 0) fly(seatXY(p.seat, st), betXY(p.seat, st), { n: 2, color: tone(p.bet, bb), dur: 540, lift: 20 });
     clack(2);
   }
   // pariuri noi: jetoanele pleacă din fața jucătorului spre locul pariului
-  if (same && h && !h.done) {
+  if (same && h && !ph.done) {
     let any = false;
     for (const p of h.players) {
       const old = ph.players.find((x) => x.seat === p.seat);
-      const add = p.bet - (old?.bet ?? 0);
+      if (!old) continue;
+      const at = seatXY(p.seat, st);
+      const add = p.total - old.total;
+      if (!old.folded && p.folded) gesture(at, "fold");
+      if (ph.turn === p.seat && !p.folded && !old.allIn && add === 0 &&
+          (h.turn !== ph.turn || h.street !== ph.street) && (p.lastAction === "check" || !p.lastAction)) gesture(at, "check");
+      if (!p.folded && p.cards?.[0] && !old.cards?.[0]) gesture(at, "show");
       if (add > 0) {
         any = true;
         const n = p.allIn ? 6 : add >= bb * 8 ? 4 : add >= bb * 3 ? 3 : 2;
-        fly(seatXY(p.seat, st), betXY(p.seat, st), { n, color: tone(add, bb), dur: 460, lift: 26 });
+        fly(seatXY(p.seat, st), betXY(p.seat, st), { n, color: tone(add, bb), dur: 620, lift: 26 });
         if (p.allIn && !old?.allIn) { floatText(seatXY(p.seat, st), "ALL-IN", "allin"); tones([220, 330, 494], 0.09, "square", 0.06); }
       }
     }
@@ -253,26 +298,33 @@ async function play(prev, st) {
   if (streetEnd) {
     const pot = potXY();
     let k = 0;
-    for (const p of ph.players) if (p.bet > 0) fly(betXY(p.seat, st), pot, { n: 3, color: tone(p.bet, bb), dur: 420, delay: k++ * 60, lift: 10, fade: true });
-    if (k) { clack(4); await wait(reduce ? 0 : 460); }
+    for (const p of ph.players) if (p.bet > 0) fly(betXY(p.seat, st), pot, { n: 3, color: tone(p.bet, bb), dur: 580, delay: k++ * 60, lift: 10, fade: true });
+    if (k) { clack(4); await wait(reduce ? 0 : 620 + (k - 1) * 60); }
   }
   // toți sunt all-in: cărțile se întorc, iar ale mesei vin pe rând
-  if (runoutStart) { floatText(potXY(), "⚡ ALL-IN · cărțile pe față", "allin"); tones([262, 330, 392, 523], 0.1, "triangle", 0.12); vibe([40, 30, 40]); }
+  if (runoutStart) { floatText(potXY(), "ALL-IN · cărțile pe față", "allin"); tones([262, 330, 392, 523], 0.1, "triangle", 0.12); vibe([40, 30, 40]); }
 
   // mâna s-a terminat: potul zboară la câștigător, apoi mesajul
   const ended = h?.done && st.lastResult && !(same && ph.done);
   if (!ended) return;
   const r = st.lastResult, pot = potXY();
-  const flights = [];
-  for (const w of r.winners || []) {
-    const to = seatXY(w.seat, st);
-    const n = Math.min(14, 5 + Math.round(Math.log2(1 + Number(w.amount) / bb)));
-    flights.push(fly(pot, to, { n, color: tone(Number(w.amount), bb), dur: 640, gap: 55, lift: 60 }).then(() => {
-      burst(to); floatText(to, `+${fmt(w.amount)}`, w.seat === st.mySeat ? "plus mine" : "plus");
+  const payouts = r.pots?.length && r.pots.every(p => p.winners?.length) ? r.pots : null;
+  const groups = payouts || [{winners:r.winners.map(w => w.seat), amount:h.pot}];
+  for (const [index, group] of groups.entries()) {
+    if (FX.id !== st.table.id || FX.st?.handNo !== st.handNo || !onTable()) return;
+    if (groups.length > 1) floatText(pot, (index ? "Pot secundar " + index : "Pot principal") + " · " + fmt(group.amount));
+    await Promise.all(group.winners.map(seat => {
+      const to = seatXY(seat, st);
+      return fly(pot, to, {n:reduce ? 1 : 4, color:tone(group.amount, bb), dur:650, gap:55, lift:40});
     }));
   }
-  setTimeout(() => clack(6), reduce ? 0 : 250);
-  await Promise.all(flights);
+  if (FX.id !== st.table.id || FX.st?.handNo !== st.handNo || !onTable()) return;
+  for (const w of r.winners) {
+    const to = seatXY(w.seat, st);
+    burst(to);
+    floatText(to, "+" + fmt(w.amount), w.seat === st.mySeat ? "plus mine" : "plus");
+  }
+  clack(4);
 
   // câștigătorul mesei: un singur jucător mai are jetoane (la turneu: turneul s-a terminat)
   const n = alive(st), before = FX.alive;
@@ -297,18 +349,9 @@ function feed(tableId, st) {
   FX.busy = FX.busy.then(() => play(prev, st)).catch((e) => console.warn("fx", e));
 }
 
-// răspunsurile API ale mesei trec pe aici înainte să ajungă la aplicație
-const nativeFetch = window.fetch.bind(window);
-window.fetch = async (...args) => {
-  const res = await nativeFetch(...args);
-  try {
-    const url = String(args[0]?.url ?? args[0]);
-    const m = url.match(/\/api\/tables\/([0-9a-f-]{36})(?:\/(act|ready|sit|leave|kick|extend|topup))?(?:\?|$)/i);
-    if (m && res.ok) res.clone().json().then((j) => feed(m[1], j?.t === "table" ? j : j?.state)).catch(() => {});
-  } catch { /* nu blochează aplicația */ }
-  return res;
-};
-addEventListener("hashchange", () => { if (!location.hash.startsWith("#/table/")) { FX.id = null; FX.st = null; } });
+// Only animate snapshots accepted by the table, including realtime updates.
+addEventListener("arena-table-state", ({detail}) => feed(detail.table.id, detail));
+addEventListener("hashchange", () => { if (!location.hash.startsWith("#/table/")) { FX.id = null; FX.st = null; document.getElementById("fx")?.replaceChildren(); } });
 
 // pentru previzualizări: window.dyFx.demo("bet" | "win" | "three" | "two" | "trophy")
 window.dyFx = {

@@ -148,7 +148,7 @@ export async function renderAdminUser() {
       ${boss ? `<button class="btn sm" id="adm-role">${u.is_admin ? "🛡️ Scoate din administratori" : "🛡️ Fă-l administrator"}</button>` : ""}
       <button class="btn sm ${u.blocked ? "green" : "danger"}" id="blk">${u.blocked ? "Deblochează contul" : "Blochează contul"}</button>`}
       ${locked ? "" : `<button class="btn sm" id="pwd">Resetează parola</button>`}
-      ${self || locked ? "" : `<button class="btn sm danger" id="del">🗑️ Șterge contul</button>`}</div>
+      ${self || locked ? "" : `<button class="btn sm danger" id="del"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#delete"></use></svg> Șterge contul</button>`}</div>
     <h2>Ultimele mișcări de jetoane</h2>
     ${r.ledger.length ? `<div class="card ledger">${r.ledger.map(ledgerRow).join("")}</div>` : `<div class="empty">Nicio mișcare.</div>`}
     <h2>Ultimele mâini</h2>
@@ -216,8 +216,8 @@ async function clubs() {
       </div>
       <form class="row welcome" data-wc="${c.id}"><label class="small muted grow" style="margin:0">Jetoane de bun venit la intrarea în club</label>
         <input name="v" type="number" inputmode="numeric" min="0" value="${c.starting_chips}" style="width:110px" aria-label="Jetoane de bun venit"><button class="btn sm">Salvează</button></form>
-      <div class="danger-zone"><button class="btn sm danger" data-wipe="${c.id}" data-name="${esc(c.name)}" data-testid="wipe-club">🧹 Șterge jetoanele clubului</button>
-        <button class="btn sm danger" data-delclub="${c.id}" data-name="${esc(c.name)}">🗑️ Șterge clubul</button></div></div>`).join("")
+      <div class="danger-zone"><button class="btn sm danger" data-wipe="${c.id}" data-name="${esc(c.name)}" data-testid="wipe-club"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#delete"></use></svg> Șterge jetoanele clubului</button>
+        <button class="btn sm danger" data-delclub="${c.id}" data-name="${esc(c.name)}"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#delete"></use></svg> Șterge clubul</button></div></div>`).join("")
     : `<div class="empty">Niciun club.</div>`);
   $$("[data-wipe]").forEach((b) => (b.onclick = async () => {
     const all = !b.dataset.wipe;
@@ -287,7 +287,7 @@ async function news() {
       <label for="nc">Pentru</label><select id="nc" name="club"><option value="">Toți jucătorii</option>${cl.clubs.map((c) => `<option value="${c.id}">${esc(c.emblem)} ${esc(c.name)}</option>`).join("")}</select>
       <label class="switch" style="padding-bottom:0"><span>🔔 Trimite și ca notificare pe telefon<small>Ajunge la cei care au pornit notificările</small></span><input type="checkbox" name="push" checked></label>
       <p class="small muted" style="margin:8px 0 0">Anunțul apare și pe ecranul principal al aplicației, timp de 7 zile.</p>
-      <button class="btn primary block" style="margin-top:12px">📣 Trimite anunțul</button></form>
+      <button class="btn primary block" style="margin-top:12px"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#announce"></use></svg> Trimite anunțul</button></form>
     <h2>Trimise</h2>
     ${r.items.length ? r.items.map((a) => `<div class="card news-item" data-testid="news-item"><div class="row"><div class="grow"><b>${esc(a.title)}</b>
         <div class="small muted">${a.club ? esc(a.club) : "Toți jucătorii"} · ${ago(a.created_at)} · ${a.pushed ? `${plural(a.pushed, "notificare trimisă", "notificări trimise")}` : "fără notificare"}</div></div>
@@ -331,14 +331,14 @@ async function alerts() {
 
 // ---------- raportări din chat ----------
 function reportsHtml(items) {
-  if (!items.length) return `<h2 class="sec">🚩 Raportări din chat</h2><div class="empty small" data-testid="reports-empty">Nicio raportare de rezolvat.</div>`;
-  return `<h2 class="sec">🚩 Raportări din chat <span class="badge full">${items.length}</span></h2>${items.map((m) => `<div class="card rep" data-testid="report-row" data-id="${m.id}">
+  if (!items.length) return `<h2 class="sec"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#flag"></use></svg> Raportări din chat</h2><div class="empty small" data-testid="reports-empty">Nicio raportare de rezolvat.</div>`;
+  return `<h2 class="sec"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#flag"></use></svg> Raportări din chat <span class="badge full">${items.length}</span></h2>${items.map((m) => `<div class="card rep" data-testid="report-row" data-id="${m.id}">
     <div class="row">${avatarHtml(m)}<div class="grow"><div class="t"><a href="#/admin/user/${m.userId}">${esc(m.username)}</a>${m.muted ? ` <span class="badge">chat oprit</span>` : ""}</div>
       <div class="small muted">${esc(m.club)} · ${esc(m.table)} · ${ago(m.at)} · ${plural(m.reports, "raportare", "raportări")}</div></div></div>
     <div class="rep-body">${m.kind === "text" ? `<div class="rep-txt">${esc(m.text)}</div>`
       : m.kind === "image" ? `<img data-rmedia="${m.id}" alt="Poză raportată">` : `<audio data-rmedia="${m.id}" controls preload="none"></audio>`}</div>
-    <div class="row wrap"><button class="btn sm danger" data-rep="delete">🗑️ Șterge</button>
-      ${m.muted ? "" : `<button class="btn sm" data-rep="mute">🔇 Șterge și oprește chatul</button>`}
+    <div class="row wrap"><button class="btn sm danger" data-rep="delete"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#delete"></use></svg> Șterge</button>
+      ${m.muted ? "" : `<button class="btn sm" data-rep="mute"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#mute"></use></svg> Șterge și oprește chatul</button>`}
       <button class="btn sm" data-rep="dismiss">Ignoră</button></div></div>`).join("")}`;
 }
 function bindReports() {
@@ -372,7 +372,7 @@ async function ledger() {
       <div class="kpi"><span>↩️</span><b>${fmt(t.taken)}</b><small>retrase în total</small></div></div>
       <p class="small muted" style="margin:10px 2px">Fiecare rând: cui, câte jetoane, în ce club, cine le-a dat și când.</p>` : ""}
     ${r.rows.length ? `<div class="card ledger" data-testid="ledger-rows">${r.rows.map(ledgerRow).join("")}</div>` : `<div class="empty">Nicio mișcare.</div>`}
-    <button class="btn block" id="csv" data-testid="export-csv" style="margin-top:12px">📊 Descarcă tot jurnalul (Excel)</button>
+    <button class="btn block" id="csv" data-testid="export-csv" style="margin-top:12px"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#chart"></use></svg> Descarcă tot jurnalul (Excel)</button>
     <p class="small muted" style="margin:6px 2px 12px">Fișier CSV cu toate mișcările de jetoane. Se deschide direct în Excel sau Google Sheets.</p>`;
   $$("[data-lk]").forEach((b) => (b.onclick = () => { ledgerKind = b.dataset.lk; ledger(); }));
   $("#csv").onclick = exportCsv;

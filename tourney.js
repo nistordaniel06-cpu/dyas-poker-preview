@@ -38,7 +38,7 @@ export async function clubTab(el, clubId) {
   let r, jp = 0;
   try { r = await api("GET", `/api/clubs/${clubId}/tourneys`); } catch (e) { el.innerHTML = ""; return toast(e.message); }
   if (r.canCreate) jp = (await api("GET", `/api/clubs/${clubId}/jackpot`).catch(() => ({ jackpot: 0 }))).jackpot;
-  el.innerHTML = `${r.canCreate ? `<button class="btn primary block" id="ntr" data-testid="new-tourney" style="margin-bottom:12px">🏆 Turneu nou</button><div id="ntrf"></div>` : ""}
+  el.innerHTML = `${r.canCreate ? `<button class="btn primary block" id="ntr" data-testid="new-tourney" style="margin-bottom:12px"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#trophy"></use></svg> Turneu nou</button><div id="ntrf"></div>` : ""}
     ${r.tourneys.length ? r.tourneys.map((t) => cardHtml(t)).join("") : `<div class="empty"><b>🏆</b>Niciun turneu încă.${r.canCreate ? "" : " Administratorul anunță turneele aici."}</div>`}`;
   el.querySelector("#ntr")?.addEventListener("click", () => {
     const h = el.querySelector("#ntrf");
@@ -51,7 +51,7 @@ export async function clubTab(el, clubId) {
 export async function homeInto(el) {
   const r = await api("GET", "/api/tourneys").catch(() => null);
   if (!r || !el.isConnected) return;
-  el.innerHTML = r.tourneys.length ? `<h2>🏆 Turnee</h2>${r.tourneys.slice(0, 3).map((t) => cardHtml(t, true)).join("")}` : "";
+  el.innerHTML = r.tourneys.length ? `<h2><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#trophy"></use></svg> Turnee</h2>${r.tourneys.slice(0, 3).map((t) => cardHtml(t, true)).join("")}` : "";
 }
 
 // ---------- formularul administratorului ----------
@@ -124,7 +124,7 @@ export function createForm(host, clubId, jackpot) {
       <div><label>Împărțire (%)</label><input name="payouts" value="50,30,20"></div></div>
     <div class="seg pays">${PAY.map(([v, n]) => `<button type="button" data-pay="${v}">${n}</button>`).join("")}</div>
     <div class="err" id="tfe"></div>
-    <button class="btn primary block" style="margin-top:12px" data-testid="create-tourney">🏆 Creează turneul</button>
+    <button class="btn primary block" style="margin-top:12px" data-testid="create-tourney"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#trophy"></use></svg> Creează turneul</button>
   </form>`;
   const f = host.querySelector("form");
   let startMode = "manual";
@@ -203,9 +203,9 @@ function paint() {
   const myBtns = [
     a.register != null ? `<button class="btn primary block" data-ta="register" data-testid="t-register">Înscrie-te · ${fee(a.register)}</button>` : "",
     me?.tableId && me.status === "playing" ? `<a class="btn green block" href="#/table/${me.tableId}" data-testid="t-mytable">♠ Mergi la masa ta</a>` : "",
-    a.rebuy != null ? `<button class="btn block" data-ta="rebuy" data-testid="t-rebuy">🔁 Rebuy · +${fmt(t.rebuy.chips)} fise · ${fee(a.rebuy)}</button>` : "",
-    a.reentry != null ? `<button class="btn block" data-ta="reentry" data-testid="t-reentry">↩️ Re-entry · ${fmt(t.startStack)} fise · ${fee(a.reentry)}</button>` : "",
-    a.addon != null ? `<button class="btn block" data-ta="addon" data-testid="t-addon">➕ Add-on · +${fmt(t.addon.chips)} fise · ${fee(a.addon)}</button>` : "",
+    a.rebuy != null ? `<button class="btn block" data-ta="rebuy" data-testid="t-rebuy"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#reload"></use></svg> Rebuy · +${fmt(t.rebuy.chips)} fise · ${fee(a.rebuy)}</button>` : "",
+    a.reentry != null ? `<button class="btn block" data-ta="reentry" data-testid="t-reentry"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#reload"></use></svg> Re-entry · ${fmt(t.startStack)} fise · ${fee(a.reentry)}</button>` : "",
+    a.addon != null ? `<button class="btn block" data-ta="addon" data-testid="t-addon"><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#plus"></use></svg> Add-on · +${fmt(t.addon.chips)} fise · ${fee(a.addon)}</button>` : "",
     a.unregister ? `<button class="btn block" data-ta="unregister">Retrage-te${t.buyIn ? " (primești taxa înapoi)" : ""}</button>` : "",
   ].join("");
   const mine = me ? (me.status === "registered" ? "✓ Ești înscris." : me.status === "playing" ? `♠ Joci · ${fmt(me.stack ?? 0)} fise` : me.place ? `Ai terminat pe locul ${me.place}${me.prize ? ` · premiu ${fmt(me.prize)}` : ""}.` : "Ai fost eliminat.") : "";
@@ -230,7 +230,7 @@ function paint() {
       <div><b>${t.status === "running" ? fmt(avg) : fmt(t.startStack)}</b><small>${t.status === "running" ? "stack mediu" : "fise de start"}</small></div></div>
     ${mine ? `<div class="card tme" data-testid="t-me">${esc(mine)}</div>` : ""}
     ${myBtns ? `<div class="tbtns">${myBtns}</div>` : ""}
-    ${res ? `<h2>🏆 Clasament final</h2><div class="podium" data-testid="t-results">${res.slice(0, 10).map((r) => `<div class="list-item"><div class="rank r${r.place}">${r.place <= 3 ? ["🥇", "🥈", "🥉"][r.place - 1] : r.place}</div>
+    ${res ? `<h2><svg class="arena-control-icon" aria-hidden="true"><use href="/control-icons.svg#trophy"></use></svg> Clasament final</h2><div class="podium" data-testid="t-results">${res.slice(0, 10).map((r) => `<div class="list-item"><div class="rank r${r.place}">${r.place <= 3 ? ["🥇", "🥈", "🥉"][r.place - 1] : r.place}</div>
       <div class="grow"><b>${esc(r.username)}</b></div>${r.prize ? `<div class="chips">${fmt(r.prize)}</div>` : ""}</div>`).join("")}</div>` : ""}
     ${!res && t.prizePool ? `<h2>Premii</h2><div class="card pays">${pct.map((p, i) => `<div class="row"><span class="grow">Locul ${i + 1}</span><b>${fmt(Math.floor((t.prizePool * p) / sum))}</b><small class="muted">&nbsp;${Math.round((p / sum) * 100)}%</small></div>`).join("")}</div>` : ""}
     ${admin}
