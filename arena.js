@@ -1,22 +1,21 @@
-// Existing avatar values are also the profile API's identifiers. Only their artwork changes.
-const symbols = ['🦊','🦉','🧙','😎','🐱','👑','🐯','🎧','🦅','🥷','🤠','🤖','🐼','🎩','🐺','🦁'];
-const extra = new Map([['🐻',4],['🦈',11],['🐉',8]]);
-function faceNumber(value) {
-  const id = symbols.indexOf(value);
-  if (id >= 0) return id;
-  if (extra.has(value)) return extra.get(value);
-  return [...value].reduce((n,c) => (n*31+c.codePointAt(0)) >>> 0, 7) % 16;
-}
+// Indices correspond to cells in the two illustration sheets. The API stores the original symbols.
+const portraits = ['🦊','🦉','🧙','😎','🐻','👑','🐯','🎧','🦅','🥷','🤠','🤖','🐼','🎩','🐺','🦁','🃏','🦈','💀','🐉','🍀','👽','🔥','💎','🎯'];
+const names = ['Vulpea','Bufnița','Iluzionista','Jucătorul cu fes','Pisica','Crupiera','Tigrul','Melomanul','Vulturul','Ratonul','Jucătoarea în verde','Robotul','Panda','Jucătoarea cu ochelari','Lupul','Căpitanul','Iepurele magician','Rechinul','Profesorul bursuc','Dragonul','Cameleonul','Flamingoul','Ursul pilot','Jucătoarea punk','Berbecul'];
 const selectors = '.av,.avatar,.sav,.avatars button[data-av]';
 function dress(node) {
   if (node.querySelector('.arena-face')) return;
-  const value = node.dataset.av || node.textContent.trim() || '♠';
-  const n = faceNumber(value);
+  const value = node.dataset.av ?? node.textContent.trim();
+  const n = portraits.indexOf(value);
+  if (n < 0) return;
+  const extra = n >= 16;
+  const index = extra ? n - 16 : n;
+  const columns = extra ? 3 : 4;
   const face = document.createElement('span');
-  face.className='arena-face';
+  face.className = extra ? 'arena-face extra-face' : 'arena-face';
+  if (node.hasAttribute('data-av')) node.setAttribute('aria-label', names[n]);
   face.setAttribute('aria-hidden','true');
-  face.style.setProperty('--face-x', (n%4)*100/3+'%');
-  face.style.setProperty('--face-y', Math.floor(n/4)*100/3+'%');
+  face.style.setProperty('--face-x', (index % columns) * 100 / (columns - 1)+'%');
+  face.style.setProperty('--face-y', Math.floor(index / columns) * 100 / (columns - 1)+'%');
   node.replaceChildren(face);
 }
 function apply(root) {

@@ -268,7 +268,7 @@ async function renderHome() {
   const jp = H.jackpots[0];
   const w = H.week;
   const sections = clubs.length ? `
-    <h2>🟢 Se joacă acum</h2>
+    <h2><span class="arena-live-dot" aria-hidden="true"></span> Se joacă acum</h2>
     ${active.length ? active.map(tableCard).join("") : `<div class="card hs-empty">Nicio masă activă acum. <a href="#/tables">Vezi toate mesele →</a></div>`}
     ${jp ? `<a class="jp-link" href="#/club/${jp.id}" data-testid="home-jackpot">${jackpotHtml(jp.jackpot, "strip")}<span class="jp-club">${esc(jp.emblem)} ${esc(jp.name)}</span></a>` : ""}
     ${H.online.length ? `<h2>Prieteni online · ${H.online.length}</h2>
@@ -293,7 +293,7 @@ async function renderHome() {
     </div>
     <div class="empty"><b>🃏</b>Nu ești încă în niciun club.<br>${me.isAdmin ? "Creează unul sau intră cu un cod primit de la un prieten." : "Intră cu codul primit de la un prieten sau de la administrator."}</div>`;
   $app.innerHTML = `<div class="screen">
-    <div class="appbar"><div class="grow">${LOGO}</div>${me.isAdmin ? `<a class="btn sm admin-btn" href="#/admin">🛡️ Admin</a>` : ""}<a class="avatar" href="#/profile" title="Profilul tău" aria-label="Profilul tău">${me.avatar ? esc(me.avatar) : esc(me.username[0].toUpperCase())}</a></div>
+    <div class="appbar"><div class="grow">${LOGO}</div>${me.isAdmin ? `<a class="btn sm admin-btn" href="#/admin">Admin</a>` : ""}<a class="avatar" href="#/profile" title="Profilul tău" aria-label="Profilul tău">${me.avatar ? esc(me.avatar) : esc(me.username[0].toUpperCase())}</a></div>
     ${news.length ? `<div class="card install" data-testid="announcement"><span class="ic">📣</span><div class="grow"><b>${esc(news[0].title)}</b>
       ${news[0].body ? `<p style="margin:4px 0;white-space:pre-line">${esc(news[0].body)}</p>` : ""}<small>${news[0].club ? `${esc(news[0].club)} · ` : ""}${ago(news[0].created_at)}</small></div>
       <button class="x" data-ann="${news[0].id}" aria-label="Am văzut">×</button></div>` : ""}
