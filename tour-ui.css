@@ -171,3 +171,22 @@ html body .tb-btn .unread {background:#bf203d;color:white}
   pointer-events:none;
 }
 #app :is(.table-screen,.tmini)[data-theme] .felt > i {display:none}
+
+/* Fit the community board inside the narrowest cloth, including the side rails. */
+#app .table-screen .felt-wrap > .center {width:min(54%,320px);container-type:inline-size;gap:5px}
+#app .table-screen .center > .board {width:100%;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px}
+#app .table-screen .board > .pcard {--w:calc((100cqw - 12px) / 5);width:100%;height:auto;aspect-ratio:5/7;min-width:0;box-sizing:border-box}
+#app .table-screen .center :is(.pot,.msg) {max-width:100%;box-sizing:border-box;text-align:center;overflow-wrap:anywhere;white-space:normal}
+#app .table-screen .felt-wrap > .tjp {position:absolute;right:8px;top:5px;display:grid;justify-items:center;align-content:center;gap:2px;min-width:53px;max-width:35%;padding:4px 8px;box-sizing:border-box;border:1px solid #96774e;border-radius:9px;background:linear-gradient(155deg,#472930,#20191e 70%);box-shadow:inset 0 1px #ffffff16,0 2px 6px #0005;text-align:center;line-height:1}
+#app .table-screen .tjp::before {content:"Jackpot";position:static;display:block;width:auto;height:auto;background:none;font:700 8px/1.1 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:#e1c395}
+#app .table-screen .tjp b {display:block;margin:0;padding:0;background:none;color:#fff1d1;font:800 15px/1 var(--sans);font-variant-numeric:tabular-nums;text-align:center}
+#app .friends .friend {width:90px;display:grid;justify-items:center;align-content:start;grid-template-rows:44px auto auto;gap:5px;padding:8px 4px}
+#app .friend .fav,#app .friend .fav .av {display:grid;place-items:center;width:44px;height:44px;box-sizing:border-box}
+#app .friend .fav .on {width:10px;height:10px;background:#ec5970}
+#app .friends .friend b {max-width:100%;min-width:0;line-height:1.2}
+#app .online .on-p {display:grid;grid-template-columns:36px minmax(0,1fr) auto auto;align-items:center;gap:7px;padding:6px 0}
+#app .online .on-p.me {background:none;border:0;opacity:1}
+#app .online .on-p > .av {width:36px;height:36px;overflow:hidden}
+#app .online .on-p .grow {min-width:0;overflow-wrap:anywhere}
+#app .online .on-p .grow b,#app .online .on-p .grow small {display:block;line-height:1.3}
+@media(max-width:370px){#app .online .on-p {grid-template-columns:36px minmax(0,1fr) auto}#app .online .on-p [data-invite] {grid-column:2/-1;justify-self:start}}
