@@ -37,7 +37,7 @@ function headerButton() {
   const btn = document.createElement("button");
   btn.type = "button"; btn.className = "dm-btn"; btn.dataset.dmOpen = ""; btn.dataset.testid = "dm-btn";
   btn.setAttribute("aria-label", "Mesaje private");
-  btn.innerHTML = `✉️<b class="unread" data-dm-badge hidden></b>`;
+  btn.innerHTML = `<svg class="dm-glyph" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 13.5a3 3 0 0 1-3 3H10L5 20v-3.5a3 3 0 0 1-2-3v-7a3 3 0 0 1 3-3h11.5a3 3 0 0 1 3 3z"/><path d="M7.5 8h8.5M7.5 12h5.5"/></svg><b class="unread" data-dm-badge hidden></b>`;
   btn.onclick = openInbox;
   const before = bar.querySelector(".admin-btn, .avatar");
   if (before) bar.insertBefore(btn, before); else bar.appendChild(btn);

@@ -112,10 +112,11 @@ body #tabbar [data-testid="nav-alerts"] .ni {font-size:0;width:21px;height:21px;
 #app .appbar .grow {min-width:0}
 #app .appbar :is(.admin-btn,.dm-btn) {height:40px;min-height:40px;margin:0;border:1px solid #43444e;background:#22232a;color:#f4f1f4;border-radius:10px;box-shadow:none}
 #app .appbar .admin-btn {display:inline-flex;align-items:center;gap:6px;padding:0 10px;font:700 14px/1 var(--sans)}
-#app .appbar .dm-btn {width:40px;font-size:0}
-#app .appbar .admin-btn::before,#app .appbar .dm-btn::before,body .pm .pm-ic::before {content:"";width:18px;height:18px;display:block;background:currentColor;mask:var(--glyph) center/contain no-repeat}
+#app .appbar .dm-btn {width:40px}
+#app .dm-btn {display:inline-flex;align-items:center;justify-content:center;padding:0}
+#app .dm-btn .dm-glyph {display:block;flex:none;width:22px;height:22px}
+#app .appbar .admin-btn::before,body .pm .pm-ic::before {content:"";width:18px;height:18px;display:block;background:currentColor;mask:var(--glyph) center/contain no-repeat}
 #app .admin-btn {--glyph:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M12 3l8 3v5c0 5-4 8-8 10-4-2-8-5-8-10V6z M8.5 12l2.5 2.5 4.5-5'/%3E%3C/svg%3E")}
-#app .dm-btn {--glyph:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7'%3E%3Crect x='2.5' y='5' width='19' height='14' rx='3'/%3E%3Cpath d='m3 6 9 7 9-7'/%3E%3C/svg%3E")}
 body .pm .pm-box {max-height:88dvh;overflow:auto;box-sizing:border-box;background:linear-gradient(155deg,#2c242d,#1b1c22 65%);border:1px solid #52434c;border-radius:20px;box-shadow:0 16px 48px #0008;padding:24px 20px 12px}
 body .pm .pm-ic {margin:0 auto 12px;display:grid;place-items:center;width:44px;height:44px;font-size:0;border-radius:14px;background:#42232e;color:#ffafbc;--glyph:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M5 17h14l-2-3V9a5 5 0 0 0-10 0v5z M10 20q2 2 4 0'/%3E%3C/svg%3E")}
 body .pm .pm-ic::before {width:24px;height:24px}
