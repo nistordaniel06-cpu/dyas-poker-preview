@@ -217,3 +217,34 @@ html body .tb-btn .unread {background:#bf203d;color:white}
 .arena-control-icon {display:inline-block;width:1.08em;height:1.08em;vertical-align:-.16em;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 @keyframes arena-public-card {0%{opacity:.15;transform:perspective(420px) rotateY(82deg)}65%{opacity:1;transform:none;box-shadow:0 0 0 1px #dfb875,0 0 9px #e9ba6266}100%{transform:none}}
 @media(prefers-reduced-motion:no-preference){#app .board .pcard.flip{animation-name:arena-public-card}}
+
+/* Club identity and wallet share the same surfaces across home, club and cashier views. */
+html:root,html body.admin-mode {
+  --green:var(--accent);
+  --club-emblem-bg:linear-gradient(145deg,#4a2934,#2b2028);
+  --club-emblem-border:#71424e;
+}
+html body .cx {background:var(--bg)}
+html body .cx .cx-bal {
+  background:linear-gradient(115deg,#2c252d,#212127 55%,#1e1f25);
+  border:1px solid #48404a;border-left:3px solid var(--accent);
+  border-radius:12px;box-shadow:none;color:var(--text)
+}
+html body .cx .cx-bal .sep {background:#49434c}
+html body .cx .cx-bal small,html body .cx .cx-bal em {color:#c6c2cc}
+html body .cx .cx-bal b {color:#fbf7f4}
+html body .cx .cx-bal > div:first-child b {color:#f4cc8b}
+#app .emblem,html body .cx .cx-emb {
+  background:var(--club-emblem-bg);border:1px solid var(--club-emblem-border);
+  color:#f4cc8b;box-shadow:inset 0 1px #ffffff0c
+}
+#app .club-hero .desc,#app .landing .tagline,#app .news-item p {color:#cfccd3}
+#app .landing .feature {color:var(--muted)}
+#app .table-ic.on {outline-color:#966375;box-shadow:0 0 0 2px #ad405b}
+#app .av,#app .avatar,#app .seat .sav {background:#302932;color:#f9dfb5}
+#app .switch input:checked {background:var(--accent);border-color:#d84a62}
+#app .btn.wa,#app .btn.green {box-shadow:none}
+#app .landing .auth :is(input,select),html body .tsheet-box :is(input:not([type=range],[type=checkbox],[type=radio]),textarea) {background:#17181d;border-color:#51515b;color:var(--text)}
+#app .online-h .dot,#app .friend .fav .on {background:#ec5970;border-color:#202127}
+html body .dm-btn .unread,html body .tb-btn .unread {background:#bd203d;color:white;box-shadow:0 0 0 2px #1e1f25}
+html body .fx-rib span {color:#efe9ec}
