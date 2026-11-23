@@ -950,13 +950,7 @@ function renderTable() {
   }
   // jucătorul local sau locul de jos pentru spectatori
   const mine = s.mySeat != null ? hp(s.mySeat) : null;
-  if (s.mySeat == null) {
-    const occ = s.seats.find((x) => x.seat === anchor);
-    if (occ) {
-      const p = hp(anchor);
-      seatsHtml += `<div class="seat" style="${lx(SELF_POS[0])};top:${SELF_POS[1]}%" data-testid="seat-${anchor}"><div class="box"><div class="nm">${esc(occ.name)}</div><div class="st">${fmt(p ? p.stack : occ.stack)}</div></div></div>`;
-    }
-  } else if (mine && mine.bet > 0 && live) {
+  if (mine && mine.bet > 0 && live) {
     const a = animAt(T.anim.bets[s.mySeat], 380);
     seatsHtml += `<div class="betchip ${a ? "pop" : ""}" style="left:50%;top:79%;${a ?? ""}" data-testid="my-bet">${fmt(mine.bet)}</div>`;
   }
@@ -964,7 +958,7 @@ function renderTable() {
   const board = h ? h.board : [];
   const boardHtml = Array.from({ length: 5 }, (_, i) => { const a = board[i] ? animAt(T.anim.board[i], 560) : null; return cardHtml(board[i] || undefined, a ? "flip" : "", a ?? ""); }).join("");
   // jetoanele potului zboară spre câștigători
-  if (h?.done && s.lastResult && winners.size) {
+  if (h?.done && s.lastResult && !s.lastResult.presentation && winners.size) {
     for (const w of winners) {
       const a = animAt(T.anim.win, 1000, 250);
       if (!a) continue;
@@ -1015,6 +1009,7 @@ function renderTable() {
     </div>
     ${panel}
   </div>`;
+  window.dispatchEvent(new CustomEvent("victory-render",{detail:s}));
   bindTable(s, h, mine);
   animateTimers();
   scheduleWake();
@@ -1462,3 +1457,4 @@ window.DY = { api, esc, fmt, plural, toast, go, avatarHtml, cardHtml, handCard, 
   get me() { return me; }, get view() { return view; }, get app() { return $app; }, get token() { return token; } };
 
 render();
+

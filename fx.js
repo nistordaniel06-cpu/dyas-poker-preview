@@ -306,7 +306,7 @@ async function play(prev, st) {
 
   // mâna s-a terminat: potul zboară la câștigător, apoi mesajul
   const ended = h?.done && st.lastResult && !(same && ph.done);
-  if (!ended) return;
+  if (!ended || st.lastResult?.presentation) return;
   const r = st.lastResult, pot = potXY();
   const payouts = r.pots?.length && r.pots.every(p => p.winners?.length) ? r.pots : null;
   const groups = payouts || [{winners:r.winners.map(w => w.seat), amount:h.pot}];
@@ -369,3 +369,4 @@ window.dyFx = {
     if (kind === "trophy") { const w = st.seats[0]; trophy({ name: w.name, amount: st.seats.reduce((a, s) => a + s.stack, 0), mine: false }); }
   },
 };
+
