@@ -1,3 +1,4 @@
+import {delay,cancel} from './clock.mjs';
 const $=s=>document.querySelector(s), fmt=n=>n.toLocaleString('ro-RO');
 const seat=n=>$('[data-testid="seat-'+n+'"] .box'), rect=e=>e.getBoundingClientRect();
 const point=e=>{const r=rect(e);return [r.left+r.width/2,r.top+r.height/2]};
@@ -5,8 +6,8 @@ const element=(tag,cls,parent,text)=>{const e=document.createElement(tag);e.clas
 const symbols={s:'♠',c:'♣',h:'♥',d:'♦'};
 let key='',run=0,layer,caption,summary,primary,active=false,latest,timers=[],seen=new Set(),received=new Map();
 const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
-function later(fn,ms){const id=run;timers.push(setTimeout(()=>{if(id===run)fn()},ms))}
-export function clearVictory(){++run;timers.forEach(clearTimeout);timers=[];layer?.remove();layer=null;primary=null;received.clear();active=false;document.body.classList.remove('victory-active');document.querySelectorAll('.v-hit').forEach(e=>e.classList.remove('v-hit'))}
+function later(fn,ms){const id=run;timers.push(delay(()=>{if(id===run)fn()},ms))}
+export function clearVictory(){++run;timers.forEach(cancel);timers=[];layer?.remove();layer=null;primary=null;received.clear();active=false;document.body.classList.remove('victory-active');document.querySelectorAll('.v-hit').forEach(e=>e.classList.remove('v-hit'))}
 function focusCards(){document.querySelectorAll('.v-hit').forEach(e=>e.classList.remove('v-hit'));for(const c of primary?.highlight||primary?.cards||[])document.querySelectorAll('#app .pcard[data-card="'+c+'"]').forEach(el=>el.classList.add('v-hit'))}
 function align(){if(!layer)return;const board=$('#app .board');if(!board)return;const r=rect(board);Object.assign(caption.style,{left:(r.left+r.width/2)+'px',top:(r.bottom+4)+'px',width:Math.min(r.width+18,360)+'px'});for(const b of layer.querySelectorAll('.v-amount')){const el=seat(+b.dataset.seat);if(el){const r=rect(el);b.style.left=(r.left+r.width/2)+'px';b.style.top=(r.bottom+2)+'px'}}focusCards()}
 function receipt(n,v,totalOnly=false){received.set(n,(received.get(n)||0)+v);let b=layer.querySelector('[data-seat="'+n+'"]');if(!b){b=element('b','v-amount',layer);b.dataset.seat=n}b.textContent='+'+fmt(totalOnly?received.get(n):v);align()}

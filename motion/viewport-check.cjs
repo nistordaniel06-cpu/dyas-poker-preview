@@ -20,5 +20,9 @@ await page.click('[data-p=a]');await page.waitForFunction(()=>document.querySele
 await page.evaluate(async()=>{const {present,clearVictory}=await import('/victories/live.mjs');const fixtures=await (await fetch('/victories/hands-9.json')).json();const st=fixtures['4-allin'];st.handNo=800;clearVictory();const prior=structuredClone(st);prior.hand.done=false;prior.lastResult=null;present(prior);present(st);present(st);window.testResult=st});
 await page.waitForSelector('.v-amount');await page.evaluate(async()=>{const m=await import('/victories/live.mjs');m.present(window.testResult);const s=structuredClone(window.testResult);s.handNo++;s.hand.done=false;s.lastResult=null;m.present(s)});assert.equal(await page.$$eval('.v-layer',els=>els.length),0);
 assert.deepEqual(errors,[]);console.log('BROWSER_PASS ten effects, next hand cleanup, repeated state, three presets, real seats, no page errors');
+await page.goto('http://127.0.0.1:'+server.address().port+'/victories/index.html?tur=1',{waitUntil:'domcontentloaded'});
+await page.waitForSelector('.v-amount');await page.click('#tourPlay');const frozen=await page.$eval('#scenes',e=>e.value);await new Promise(r=>setTimeout(r,5200));assert.equal(await page.$eval('#scenes',e=>e.value),frozen);await page.click('#tourPlay');await page.waitForFunction(()=>document.querySelector('#scenes').value==='1',{timeout:7000});
+for(let i=0;i<17;i++){await page.select('#scenes',String(i));await page.waitForSelector('.v-caption strong');assert(await page.$eval('.v-caption strong',e=>e.textContent.length>0))}
+await page.waitForFunction(()=>document.querySelector('#tourPlay').textContent==='Reia turul',{timeout:15000});assert.deepEqual(errors,[]);console.log('TOUR_PASS 17 scenes, autoplay, pause/resume, selection, last payout and stop');
 console.log('BROWSER_PASS three presets, real seats, no page errors');
 }finally{await browser.close();server.close()}})().catch(e=>{console.error(e);process.exit(1)});
